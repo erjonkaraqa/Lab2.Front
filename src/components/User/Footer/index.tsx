@@ -1,160 +1,14 @@
 import React from 'react'
-// import AppleLogo from '../../../assets/images/Gjirafa50-AAR.png'
-// import LenovoLogo from '../../../assets/images/Lenovo.png'
-// import MSILogo from '../../../assets/images/MSI.png'
-// import SamsungLogo from '../../../assets/images/Samsung.png'
-// import SteelSLogo from '../../../assets/images/Steelseries.png'
-// import ZowieLogo from '../../../assets/images/Zowie.png'
 import Logo from '../../../assets/images/gjirafa50.png'
-// import VisaLogo from '../../../assets/images/visa.png'
 import './style.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFaceAngry } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate, useParams } from 'react-router-dom'
+import LoadingBar from '@/ui/Loading/LoadingBar'
 
 function Footer() {
   const currentURL = window.location.href
   const dashboardURL = 'http://localhost:3000/'
-
   const isDashboard = currentURL === dashboardURL
 
   return (
-    // <div className="footer">
-    //   <div style={{ background: '#E4E4E4' }}>
-    //     {/* <div className="container d-flex justify-content-center">
-    //       <div className="footer-logos__div">
-    //         <img src={AppleLogo} alt="apple logo" />
-    //       </div>
-    //       <div className="footer-logos__div">
-    //         <img src={LenovoLogo} alt="apple logo" />
-    //       </div>
-    //       <div className="footer-logos__div">
-    //         <img src={MSILogo} alt="apple logo" />
-    //       </div>
-    //       <div className="footer-logos__div">
-    //         <img src={SamsungLogo} alt="apple logo" />
-    //       </div>
-    //       <div className="footer-logos__div">
-    //         <img src={SteelSLogo} alt="apple logo" />
-    //       </div>
-    //       <div className="footer-logos__div">
-    //         <img src={ZowieLogo} alt="apple logo" />
-    //       </div>
-    //     </div> */}
-    //   </div>
-
-    //   <div className="bg-light" style={{ padding: '56px 0px' }}>
-    //     <div className="container d-flex justify-content-right ">
-    //       <div className="logo-footer__div col-3">
-    //         <img src={Logo} alt="Logo" />
-    //       </div>
-    //       <div className="col-3 text-end">
-    //         <h6>Llogaria</h6>
-    //         <ul className=" footer-list">
-    //           <li>
-    //             <a href="#">Kyqu</a>
-    //           </li>
-    //           <li>
-    //             <a href="#">Regjistrohu</a>
-    //           </li>
-    //           <li>
-    //             <a href="#">Keni harruar fjalekalimin?</a>
-    //           </li>
-    //         </ul>
-    //       </div>
-    //       <div className="col-3 text-end">
-    //         <h6>Kujdesi ndaj klienteve</h6>
-    //         <ul className=" footer-list">
-    //           <li>
-    //             <a href="">Per gjirafa50</a>
-    //           </li>
-    //           <li>
-    //             <a href="">Pagesa</a>
-    //           </li>
-    //           <li>
-    //             <a href="">Qeshtje teknike</a>
-    //           </li>
-    //           <li>
-    //             <a href="">Transporti</a>
-    //           </li>
-    //           <li>
-    //             <a href="">Produktet/Porosite</a>
-    //           </li>
-    //           <li>
-    //             <a href="">GjirafaFLEX</a>
-    //           </li>
-    //         </ul>
-    //       </div>
-    //       <div className="col-3 text-end">
-    //         <h6>Kujdesi ndaj klienteve</h6>
-    //         <ul className=" footer-list">
-    //           <li>
-    //             <a href="">Per gjirafa50</a>
-    //           </li>
-    //           <li>
-    //             <a href="">Pagesa</a>
-    //           </li>
-    //           <li>
-    //             <a href="">Qeshtje teknike</a>
-    //           </li>
-    //           <li>
-    //             <a href="">Transporti</a>
-    //           </li>
-    //           <li>
-    //             <a href="">Produktet/Porosite</a>
-    //           </li>
-    //           <li>
-    //             <a href="">GjirafaFLEX</a>
-    //           </li>
-    //         </ul>
-    //       </div>
-    //     </div>
-    //     <hr
-    //       className="container"
-    //       style={{ marginTop: '35px', marginBottom: '35px' }}
-    //     />
-
-    //     <div className="container d-flex ">
-    //       <div className="col-7">
-    //         <div className="d-flex align-items-center">
-    //           <small className="col-3">Pagesat behen permes: </small>
-    //           <div className="paymentMethods-footer__div">
-    //             {/* <img src={VisaLogo} alt="visalogo" /> */}
-    //           </div>
-    //         </div>
-    //       </div>
-    //       <div className="col-5">
-    //         <div className="d-flex justify-content-center align-items-center">
-    //           <small className="col-4">Rri i lidhur me gjirafa50</small>
-    //           <div className="d-flex social-icons">
-    //             <FontAwesomeIcon icon={faFaceAngry} />
-    //             <FontAwesomeIcon icon={faFaceAngry} />
-    //             <FontAwesomeIcon icon={faFaceAngry} />
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <hr
-    //       className="container"
-    //       style={{ marginTop: '35px', marginBottom: '35px' }}
-    //     />
-    //     <div className="container d-flex justify-content-center">
-    //       <div>
-    //         <small>
-    //           Mundesuar nga webMaverics,Inc - Te gjitha te drejtat te rezervuara
-    //         </small>
-    //         <ul className="d-flex footer-list">
-    //           <li>
-    //             <a href="">Termet dhe kushtet</a>
-    //           </li>
-    //           <li>
-    //             <a href="">Politika e privatesise</a>
-    //           </li>
-    //         </ul>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div className="footer text-gray-600">
       {isDashboard && (
         <div className="w-100 footer-manufacturers">
@@ -175,7 +29,7 @@ function Footer() {
             </div>
             <div className="d-flex bg-white shadow-md rounded p-3 md:p-4">
               <a
-                href="https://gjirafa50.com/samsung"
+                href=""
                 className="d-flex mx-auto w-[10rem] h-[3rem]"
               >
                 <img
@@ -188,7 +42,7 @@ function Footer() {
             </div>
             <div className="d-flex bg-white shadow-md rounded p-3 md:p-4">
               <a
-                href="https://gjirafa50.com/msi"
+                href=""
                 className="d-flex mx-auto w-[10rem] h-[3rem]"
               >
                 <img
@@ -201,7 +55,7 @@ function Footer() {
             </div>
             <div className="d-flex bg-white shadow-md rounded p-3 md:p-4">
               <a
-                href="https://gjirafa50.com/steelseries"
+                href=""
                 className="d-flex mx-auto w-[10rem] h-[3rem]"
               >
                 <img
@@ -214,7 +68,7 @@ function Footer() {
             </div>
             <div className="d-flex bg-white shadow-md rounded p-3 md:p-4">
               <a
-                href="https://gjirafa50.com/lenovo-2"
+                href=""
                 className="d-flex mx-auto w-[10rem] h-[3rem]"
               >
                 <img
@@ -227,7 +81,7 @@ function Footer() {
             </div>
             <div className="d-flex bg-white shadow-md rounded p-3 md:p-4">
               <a
-                href="https://gjirafa50.com/zowie-by-benq"
+                href=""
                 className="d-flex mx-auto w-[10rem] h-[3rem]"
               >
                 <img
@@ -283,7 +137,7 @@ function Footer() {
                 <a
                   className="topic-link"
                   id="#forus-faq"
-                  href="/faq-xk#forus-faq"
+                  href=""
                 >
                   Për Gjirafa50
                 </a>
@@ -292,7 +146,7 @@ function Footer() {
                 <a
                   className="topic-link"
                   id="#payment-faq"
-                  href="/faq-xk#payment-faq"
+                  href=""
                 >
                   Pagesat
                 </a>
@@ -301,7 +155,7 @@ function Footer() {
                 <a
                   className="topic-link"
                   id="#replace-faq"
-                  href="/faq-xk#replace-faq"
+                  href=""
                 >
                   Çështje teknike
                 </a>
@@ -310,7 +164,7 @@ function Footer() {
                 <a
                   className="topic-link"
                   id="#transport-faq"
-                  href="/faq-xk#transport-faq"
+                  href=""
                 >
                   Transporti
                 </a>
@@ -319,7 +173,7 @@ function Footer() {
                 <a
                   className="topic-link"
                   id="#products-faq"
-                  href="/faq-xk#products-faq"
+                  href=""
                 >
                   Porositë
                 </a>
@@ -334,16 +188,16 @@ function Footer() {
             </h6>
             <ul className="d-flex flex-col gap-2">
               <li className="text-sm hover:underline">
-                <a href="https://gjirafa50.com/cart">Shporta ime</a>
+                <a href="/cart">Shporta ime</a>
               </li>
               <li className="text-sm hover:underline">
-                <a href="https://gjirafa50.com/order/history">Porositë</a>
+                <a href="/order/history">Porositë</a>
               </li>
               <li className="text-sm hover:underline">
-                <a href="https://gjirafa50.com/wishlist">Lista e dëshirave</a>
+                <a href="/wishlist">Lista e dëshirave</a>
               </li>
               <li className="text-sm hover:underline">
-                <a href="https://gjirafa50.com/customer/info">Llogaria ime</a>
+                <a href="/customer/info">Llogaria ime</a>
               </li>
             </ul>
           </div>
@@ -416,33 +270,33 @@ function Footer() {
         <div className="w-100 d-flex justify-content-between overflow-auto md:overflow-hidden pb-4 mb-1 text-sm text-gray-700 font-medium">
           <a
             className="gjirafa-products d-flex align-items-center justify-content-start"
-            href="https://gjirafa.com/"
+            href=""
             target="_blank"
           >
             <img
               className="pr-2 h-6"
               loading="lazy"
-              src="https://hhstsyoejx.gjirafa.net/gjirafa50core/gjirafa_products_logo/gjcom.png?w=24"
+              src=""
               alt="gjirafa"
             />
             gjirafa.com
           </a>
           <a
             className="gjirafa-products d-flex align-items-center justify-content-center"
-            href="https://gjirafa50.com/"
+            href=""
             target="_blank"
           >
             <img
               className="pr-2 h-6"
               loading="lazy"
-              src="https://hhstsyoejx.gjirafa.net/gjirafa50core/gjirafa_products_logo/gj50.png?w=24"
+              src=""
               alt="gjirafa50"
             />
             gjirafa50
           </a>
           <a
             className="gjirafa-products d-flex align-items-center justify-content-center"
-            href="https://gjirafamall.com/"
+            href=""
             target="_blank"
           >
             <img
@@ -455,7 +309,7 @@ function Footer() {
           </a>
           <a
             className="gjirafa-products d-flex align-items-center justify-content-center"
-            href="https://video.gjirafa.com/"
+            href=""
             target="_blank"
           >
             <img
@@ -468,7 +322,7 @@ function Footer() {
           </a>
           <a
             className="gjirafa-products d-flex align-items-center justify-content-center"
-            href="https://gjirafa.biz/"
+            href=""
             target="_blank"
           >
             <img
@@ -481,7 +335,7 @@ function Footer() {
           </a>
           <a
             className="gjirafa-products d-flex align-items-center justify-content-start"
-            href="https://client.gjirafa.com/landing"
+            href=""
             target="_blank"
           >
             <img
@@ -494,7 +348,7 @@ function Footer() {
           </a>
           <a
             className="gjirafa-products d-flex align-items-center justify-content-center"
-            href="https://gjirafalab.com/"
+            href=""
             target="_blank"
           >
             <img
@@ -504,6 +358,7 @@ function Footer() {
               alt="gjirafaLab"
             />
             gjirafaLab
+
           </a>
         </div>
       </div>
