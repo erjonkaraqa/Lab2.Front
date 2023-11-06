@@ -1,12 +1,12 @@
-import React from 'react'
-import Logo from '../../../assets/images/gjirafa50.png'
-import './style.css'
-import LoadingBar from '@/ui/Loading/LoadingBar'
+import React from "react";
+import Logo from "../../../assets/images/gjirafa50.png";
+import "./style.css";
+import LoadingBar from "@/ui/Loading/LoadingBar";
 
 function Footer() {
-  const currentURL = window.location.href
-  const dashboardURL = 'http://localhost:3000/'
-  const isDashboard = currentURL === dashboardURL
+  const currentURL = window.location.href;
+  const dashboardURL = "http://localhost:3000/";
+  const isDashboard = currentURL === dashboardURL;
 
   return (
     <div className="footer text-gray-600">
@@ -17,7 +17,7 @@ function Footer() {
               <a
                 href="https://gjirafa50.com/apple"
                 className="d-flex mx-auto "
-                style={{ width: '10rem', height: '3rem' }}
+                style={{ width: "10rem", height: "3rem" }}
               >
                 <img
                   alt="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/d242fc19-6303-4e38-8d92-cdd1ac6c9074/d242fc19-6303-4e38-8d92-cdd1ac6c9074"
@@ -28,10 +28,7 @@ function Footer() {
               </a>
             </div>
             <div className="d-flex bg-white shadow-md rounded p-3 md:p-4">
-              <a
-                href=""
-                className="d-flex mx-auto w-[10rem] h-[3rem]"
-              >
+              <a href="" className="d-flex mx-auto w-[10rem] h-[3rem]">
                 <img
                   alt="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/ad46de6e-1abd-4f28-af6b-f771c3c1abc7/ad46de6e-1abd-4f28-af6b-f771c3c1abc7"
                   src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/ad46de6e-1abd-4f28-af6b-f771c3c1abc7/ad46de6e-1abd-4f28-af6b-f771c3c1abc7.webp?w=160"
@@ -41,10 +38,7 @@ function Footer() {
               </a>
             </div>
             <div className="d-flex bg-white shadow-md rounded p-3 md:p-4">
-              <a
-                href=""
-                className="d-flex mx-auto w-[10rem] h-[3rem]"
-              >
+              <a href="" className="d-flex mx-auto w-[10rem] h-[3rem]">
                 <img
                   alt="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/0cf9ad8e-4b82-431d-84b5-5888d02d1269/0cf9ad8e-4b82-431d-84b5-5888d02d1269"
                   src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/0cf9ad8e-4b82-431d-84b5-5888d02d1269/0cf9ad8e-4b82-431d-84b5-5888d02d1269.webp?w=160"
@@ -54,10 +48,7 @@ function Footer() {
               </a>
             </div>
             <div className="d-flex bg-white shadow-md rounded p-3 md:p-4">
-              <a
-                href=""
-                className="d-flex mx-auto w-[10rem] h-[3rem]"
-              >
+              <a href="" className="d-flex mx-auto w-[10rem] h-[3rem]">
                 <img
                   alt="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/68d0c46e-b7e5-4cdd-9d4a-0bf116412e70/68d0c46e-b7e5-4cdd-9d4a-0bf116412e70"
                   src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/68d0c46e-b7e5-4cdd-9d4a-0bf116412e70/68d0c46e-b7e5-4cdd-9d4a-0bf116412e70.webp?w=160"
@@ -67,10 +58,7 @@ function Footer() {
               </a>
             </div>
             <div className="d-flex bg-white shadow-md rounded p-3 md:p-4">
-              <a
-                href=""
-                className="d-flex mx-auto w-[10rem] h-[3rem]"
-              >
+              <a href="" className="d-flex mx-auto w-[10rem] h-[3rem]">
                 <img
                   alt="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/fd0626eb-00e1-4808-8400-d517c8b28381/fd0626eb-00e1-4808-8400-d517c8b28381"
                   src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/fd0626eb-00e1-4808-8400-d517c8b28381/fd0626eb-00e1-4808-8400-d517c8b28381.webp?w=160"
@@ -80,10 +68,7 @@ function Footer() {
               </a>
             </div>
             <div className="d-flex bg-white shadow-md rounded p-3 md:p-4">
-              <a
-                href=""
-                className="d-flex mx-auto w-[10rem] h-[3rem]"
-              >
+              <a href="" className="d-flex mx-auto w-[10rem] h-[3rem]">
                 <img
                   alt="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/c89f142d-e980-4a59-8704-a379ab99abeb/c89f142d-e980-4a59-8704-a379ab99abeb"
                   src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/c89f142d-e980-4a59-8704-a379ab99abeb/c89f142d-e980-4a59-8704-a379ab99abeb.webp?w=160"
@@ -97,7 +82,7 @@ function Footer() {
       )}
 
       <div className="footer-upper text-left mx-auto px-3 md:px-0 py-4">
-        <img src={Logo} alt="gjirafa50" style={{ width: '150px' }} />
+        <img src={Logo} alt="gjirafa50" style={{ width: "150px" }} />
       </div>
       <div className="footer-upper mx-auto d-flex flex-col-reverse md:flex-row-reverse footer-lists p-2 md:p-0 md:mb-4">
         <div className="footer-block information mb-3">
@@ -134,47 +119,27 @@ function Footer() {
             </h5>
             <ul className="d-flex flex-col gap-2">
               <li className="text-sm hover:underline">
-                <a
-                  className="topic-link"
-                  id="#forus-faq"
-                  href=""
-                >
+                <a className="topic-link" id="#forus-faq" href="">
                   Për Gjirafa50
                 </a>
               </li>
               <li className="text-sm hover:underline">
-                <a
-                  className="topic-link"
-                  id="#payment-faq"
-                  href=""
-                >
+                <a className="topic-link" id="#payment-faq" href="">
                   Pagesat
                 </a>
               </li>
               <li className="text-sm hover:underline">
-                <a
-                  className="topic-link"
-                  id="#replace-faq"
-                  href=""
-                >
+                <a className="topic-link" id="#replace-faq" href="">
                   Çështje teknike
                 </a>
               </li>
               <li className="text-sm hover:underline">
-                <a
-                  className="topic-link"
-                  id="#transport-faq"
-                  href=""
-                >
+                <a className="topic-link" id="#transport-faq" href="">
                   Transporti
                 </a>
               </li>
               <li className="text-sm hover:underline">
-                <a
-                  className="topic-link"
-                  id="#products-faq"
-                  href=""
-                >
+                <a className="topic-link" id="#products-faq" href="">
                   Porositë
                 </a>
               </li>
@@ -273,12 +238,7 @@ function Footer() {
             href=""
             target="_blank"
           >
-            <img
-              className="pr-2 h-6"
-              loading="lazy"
-              src=""
-              alt="gjirafa"
-            />
+            <img className="pr-2 h-6" loading="lazy" src="" alt="gjirafa" />
             gjirafa.com
           </a>
           <a
@@ -286,12 +246,7 @@ function Footer() {
             href=""
             target="_blank"
           >
-            <img
-              className="pr-2 h-6"
-              loading="lazy"
-              src=""
-              alt="gjirafa50"
-            />
+            <img className="pr-2 h-6" loading="lazy" src="" alt="gjirafa50" />
             gjirafa50
           </a>
           <a
@@ -358,12 +313,11 @@ function Footer() {
               alt="gjirafaLab"
             />
             gjirafaLab
-
           </a>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Footer
+export default Footer;
