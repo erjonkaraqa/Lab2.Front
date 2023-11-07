@@ -79,3 +79,24 @@ export type RatingInput = {
   description?: string;
   rating: number;
 };
+export type ImageHelperTypes = {
+  src: string
+  alt: string
+  className: string
+};
+
+export type CartItemProduct = {
+  product: Product
+  quantity: number
+  price: number
+};
+export type CartItem = {
+  status: string
+  results: number
+  products: CartItemProduct[]
+};
+export type addToCartType = {
+  productId: string
+  quantity: number
+  price: number
+};
