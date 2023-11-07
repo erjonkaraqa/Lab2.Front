@@ -100,3 +100,8 @@ export type addToCartType = {
   quantity: number
   price: number
 };
+export type ChangePasswordInput = {
+  passwordCurrent: string
+  password: string
+  passwordConfirm: string
+};
