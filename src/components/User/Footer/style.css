@@ -1,0 +1,47 @@
+.footer {
+  background-color: #fff;
+  text-align: center;
+}
+.footer-manufacturers {
+  background-color: #f7f7f7;
+}
+.gjirafa-products {
+  min-width: 145px;
+}
+
+@media (min-width: 481px) {
+  .footer-upper {
+    width: 94%;
+  }
+}
+@media (min-width: 811px) {
+  .footer-upper {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 1400px) {
+  .footer-upper {
+    width: 1280px;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .footer-block {
+    width: 100%;
+  }
+}
+@media (min-width: 811px) {
+  .footer-lower {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 1400px) {
+  .footer-lower {
+    width: 1280px;
+  }
+}
+@media (min-width: 1001px) {
+  .footer-lower {
+    position: relative;
+  }
+}
