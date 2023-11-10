@@ -9,18 +9,14 @@ import {
   faShoppingCart,
   faSignIn,
 } from '@fortawesome/free-solid-svg-icons'
-import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
-import CustomDropdown from '@/ui/Dropdown'
 import { logout, reset } from '@/store/auth/authSlice'
-import {
-  useDeleteCartProductMutation,
-  useGetCartProductsQuery,
-} from '@/Cart/store/cartAPI'
 import LoadingBar from '@/ui/Loading/LoadingBar'
 import { useNavigate } from 'react-router-dom'
 import { useGetProductsQuery } from '@/store/products/RTKProductSlice'
-import { Product } from '@/helpers/types'
-import { Image } from '@/helpers/helpers'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
+import { Product } from '@/utils/types'
+import { useAppSelector } from '@/hooks/useAppSelector'
+import { Image } from '@/utils/helpers'
 
 const Navigation = () => {
   const navigate = useNavigate()
@@ -35,13 +31,7 @@ const Navigation = () => {
   const { data } = useGetProductsQuery()
   const { user, isSuccess, error, message, isLoading, countries } =
     useAppSelector((state) => state.auth)
-  const [deleteProduct, { isLoading: deleteProductLoading }] =
-    useDeleteCartProductMutation()
-  const {
-    data: cart,
-    refetch,
-    isLoading: cartLoading,
-  } = useGetCartProductsQuery()
+
 
   const onLogout = () => {
     dispatch(logout())
@@ -62,16 +52,6 @@ const Navigation = () => {
     }
   }, [])
 
-  const handleDeleteCartProduct = async (productId: number | string) => {
-    console.log('productId', productId)
-
-    try {
-      await deleteProduct(productId)
-      refetch()
-    } catch (error) {
-      console.log('error', error)
-    }
-  }
 
   const goToLogin = () => {
     navigate('/login/identifier')
@@ -161,17 +141,8 @@ const Navigation = () => {
                 className="d-flex max-w-username align-items-center cursor-pointer i-bg-effect px-1"
                 title="Llogaria ime"
               >
-                <CustomDropdown
-                  buttonContent={user.user.name}
-                  icon={<FontAwesomeIcon icon={faSignIn} />}
-                  menuItems={['Profile info', 'Orders', 'Wishlist', 'Logout']}
-                  logout={onLogout}
-                  direction="bottom"
-                  menuClassName="profile-menu"
-                  align="center"
-                  hasCartNumber={false}
-                  handleDeleteCartProduct={handleDeleteCartProduct}
-                />
+               
+               
               </div>
               <a
                 title="Lista e dëshirave"
@@ -195,15 +166,7 @@ const Navigation = () => {
                   2
                 </span>
               </span> */}
-              <CustomDropdown
-                cartItemProducts={cart?.products}
-                icon={<FontAwesomeIcon icon={faShoppingCart} />}
-                direction="bottom"
-                menuClassName={'my-menu'}
-                hasCartNumber={true}
-                align="end"
-                handleDeleteCartProduct={handleDeleteCartProduct}
-              />
+            
               <div
                 id="account__card"
                 className="account-card rounded shadow-md bg-white hidden"
@@ -406,14 +369,7 @@ const Navigation = () => {
                   2
                 </span>
               </span> */}
-              <CustomDropdown
-                cartItemProducts={cart?.products}
-                icon={<FontAwesomeIcon icon={faShoppingCart} />}
-                direction="bottom"
-                menuClassName={'my-menu'}
-                align="end"
-                handleDeleteCartProduct={handleDeleteCartProduct}
-              />
+
               <div
                 id="account__card"
                 className="account-card rounded shadow-md bg-white hidden"

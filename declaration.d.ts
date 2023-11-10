@@ -11,4 +11,8 @@ declare module "redux"
 declare module "@reduxjs/toolkit"
 
 
+declare module "@mui/material";
+declare module "react-toastify";
+declare module "react-query";
+declare module "reactstrap";
 
