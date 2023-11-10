@@ -163,9 +163,6 @@ export type ReturnRequestInput = {
   productsDetails: ReturnRequestProductDetail[] | ReturnRequestProductDetail;
   returningAction: string;
   returningStatus?: string;
-  productId: string;
-  quantity: number;
-  price: number;
 };
 export type ChangePasswordInput = {
   passwordCurrent: string;
