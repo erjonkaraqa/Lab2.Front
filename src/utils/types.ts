@@ -80,23 +80,87 @@ export type RatingInput = {
   rating: number;
 };
 export type ImageHelperTypes = {
-  src: string
-  alt: string
-  className: string
+  src: string;
+  alt: string;
+  className: string;
 };
 
 export type CartItemProduct = {
-  product: Product
-  quantity: number
-  price: number
+  product: Product;
+  quantity: number;
+  price: number;
 };
 export type CartItem = {
-  status: string
-  results: number
-  products: CartItemProduct[]
+  status: string;
+  results: number;
+  products: CartItemProduct[];
 };
 export type addToCartType = {
-  productId: string
-  quantity: number
-  price: number
+  productId: string;
+  quantity: number;
+  price: number;
+};
+export type OrderProduct = {
+  product: string | Product;
+  quantity: number;
+};
+
+export type Order = {
+  _id: string;
+  userID: string;
+  products: OrderProduct[];
+  status: "pending" | "processed" | "completed" | "admin";
+  addressID: string;
+  billingAddress: string;
+  transportMode: string;
+  transportModeStatus: string;
+  paymentMethod: string;
+  paymentMethodStatus: string;
+  comments: string | null;
+  orderDate: string;
+  arrivalDate: string;
+  totalOrderPrice: number;
+  tvsh: number;
+  orderCode: string;
+  createdAt: string;
+  updatedAt: string;
+};
+export type OrderInput = {
+  products: OrderProduct[];
+  status: string;
+  addressID: string;
+  billingAddress: string;
+  transportMode: string;
+  transportModeStatus: string;
+  paymentMethod: string;
+  paymentMethodStatus: string;
+  comments?: string | null;
+  totalOrderPrice: number;
+  tvsh: number;
+  orderDate?: string;
+  arrivalDate: string;
+  orderCode: string;
+};
+export type ReturnRequest = {
+  _id: string;
+  order: string;
+  requestId: string;
+  reason: string;
+  productsDetails: ReturnRequestProductDetail[];
+  requestDate: string;
+  returningAction: string;
+  returningStatus: string;
+};
+
+export type ReturnRequestProductDetail = {
+  product: Product;
+  quantity: number;
+};
+
+export type ReturnRequestInput = {
+  order: string;
+  reason: string;
+  productsDetails: ReturnRequestProductDetail[] | ReturnRequestProductDetail;
+  returningAction: string;
+  returningStatus?: string;
 };
