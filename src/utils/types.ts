@@ -169,3 +169,29 @@ export type ChangePasswordInput = {
   password: string;
   passwordConfirm: string;
 };
+
+export type Address = {
+  id: string
+  type: string
+  name: string
+  surname: string
+  company?: string
+  fiscalNumber?: string
+  country: string
+  city: string
+  address: string
+  email: string
+  telephone: string
+}
+export type CreateAddress = {
+  type: string
+  name: string
+  surname: string
+  company?: string
+  fiscalNumber?: string
+  country: string
+  city: string
+  address: string
+  email: string
+  telephone: string
+}
