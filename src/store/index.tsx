@@ -1,7 +1,7 @@
+import { configureStore } from '@reduxjs/toolkit'
 import { productsAPI } from './products/RTKProductSlice'
 import rootReducer from '@/store/rootReducer'
 import { cartsAPI } from '@/Cart/store/cartAPI'
-import { configureStore } from '@reduxjs/toolkit'
 
 const store = configureStore({
   reducer: rootReducer,

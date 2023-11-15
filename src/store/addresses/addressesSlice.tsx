@@ -1,7 +1,6 @@
 import { Address, CreateAddress } from '@/utils/types'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import AddressesService from './addressesService'
-import { type } from 'os'
 
 type initialStateTypes = {
   loading: boolean

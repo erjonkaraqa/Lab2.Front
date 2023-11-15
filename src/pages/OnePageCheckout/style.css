@@ -1,0 +1,52 @@
+.opc .active {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.opc .title {
+  font-size: 14px;
+}
+.customer-address-field input {
+  width: 100%;
+}
+input[type='radio'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 50%;
+  min-width: 16px;
+  max-width: 16px;
+  min-height: 16px;
+  max-height: 16px;
+  border: 2px solid #cacaca;
+  transition: 0.2s all linear;
+  position: relative;
+}
+input[type='checkbox'],
+input[type='radio'],
+input[type='checkbox'] + *,
+input[type='radio'] + * {
+  vertical-align: middle;
+}
+.payment-group input[type='radio']:checked::after {
+  content: '';
+  background-color: #e15726;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  border: 5px solid #e15726;
+  border-radius: 50%;
+}
+
+.customer-entered-delivery-date input[type='date'] {
+  width: 140px;
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+  height: 40px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  color: #2c2c2c !important;
+  transition: border 0.5s ease;
+}

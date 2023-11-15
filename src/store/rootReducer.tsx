@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux'
+
 import { reducer as formReducer } from 'redux-form'
+
 import { productsAPI } from './products/RTKProductSlice'
 import productSlice from './products/productSlice'
 import cartSlice from '@/Cart/store/cartSlice'
