@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@/hooks/hooks'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
 import { validateUserByEmail } from '@/store/auth/authSlice'
 import LoadingBar from '@/ui/Loading/LoadingBar'
 import { TextField } from '@mui/material'

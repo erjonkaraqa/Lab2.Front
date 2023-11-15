@@ -11,7 +11,7 @@ const useBreadcrumbs = (): Breadcrumb[] => {
   const [breadcrumb, setBreadcrumbs] = useState<Breadcrumb[]>([])
 
   useEffect(() => {
-    const pathSegments = location.pathname
+    const pathSegments = location?.pathname
       .split('/')
       .filter((segment) => segment !== '')
 

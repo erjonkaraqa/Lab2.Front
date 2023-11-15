@@ -4,7 +4,7 @@ import {
   LoginUserData,
   SignupUserData,
   User,
-} from '@/helpers/types'
+} from '@/utils/types'
 import axiosInstance from '../../api/axiosInstance'
 import axios, { AxiosResponse } from 'axios'
 

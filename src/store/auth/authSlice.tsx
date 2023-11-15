@@ -6,7 +6,8 @@ import {
   LoginUserData,
   SignupUserData,
   User,
-} from '@/helpers/types'
+} from '@/utils/types'
+import { PayloadAction } from '@reduxjs/toolkit'
 
 interface AuthState {
   user: User | null
@@ -41,7 +42,7 @@ const initialState: AuthState = {
 
 export const signup = createAsyncThunk(
   'auth/signup',
-  async (user: User, thunkAPI) => {
+  async (user: User, thunkAPI: any) => {
     try {
       return await authService.signup(user)
     } catch (error: any) {
@@ -58,7 +59,7 @@ export const signup = createAsyncThunk(
 
 export const login = createAsyncThunk(
   'auth/login',
-  async (user: LoginUserData, { rejectWithValue }) => {
+  async (user: LoginUserData, { rejectWithValue }: any) => {
     try {
       const response = await authService.login(user)
       console.log('response', response)
@@ -70,7 +71,7 @@ export const login = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString()
-      return rejectWithValue(error.response.data)
+      return rejectWithValue('An error occurred')
     }
   }
 )
@@ -109,7 +110,7 @@ export const fetchCountries = createAsyncThunk(
 
 export const validateUserByEmail = createAsyncThunk(
   'auth/validateUserByEmail',
-  async (email: string, thunkAPI) => {
+  async (email: string, { rejectWithValue }: any) => {
     try {
       const response = await authService.validateUserByEmail(email)
       return response
@@ -120,14 +121,17 @@ export const validateUserByEmail = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString()
-      return thunkAPI.rejectWithValue(message)
+      return rejectWithValue(message)
     }
   }
 )
 
 export const updateMyPassword = createAsyncThunk<
   AuthPromise,
-  ChangePasswordInput
+  ChangePasswordInput,
+  {
+    rejectValue: string
+  }
 >('auth/updateMyPassword', async (body, thunkAPI) => {
   try {
     const response = await authService.changePassword(body)
@@ -145,25 +149,25 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    reset: (state) => {
+    reset: (state: AuthState) => {
       state.isLoading = false
       state.isSuccess = false
       state.error = null
       state.message = ''
     },
-    setAccessToken: (state, action) => {
+    setAccessToken: (state: AuthState, action: PayloadAction<string>) => {
       state.accessToken = action.payload
     },
-    setRefreshToken: (state, action) => {
+    setRefreshToken: (state: AuthState, action: PayloadAction<string>) => {
       state.refreshToken = action.payload
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {
+      .addCase(login.pending, (state: AuthState) => {
         state.isLoading = true
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state: AuthState, action) => {
         state.user = action.payload
         state.isAuthenticated = true
         state.isLoading = false
@@ -171,7 +175,7 @@ const authSlice = createSlice({
         state.error = null
         state.message = ''
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state: AuthState, action) => {
         state.user = null
         state.isAuthenticated = false
         state.isSuccess = false

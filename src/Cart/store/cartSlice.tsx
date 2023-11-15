@@ -23,21 +23,24 @@ type GetCartProductsErrorPayload = {
   error: string
 }
 
-export const getCartProducts = createAsyncThunk('cart/getCartProducts', async (_: any, { rejectWithValue }: any) => {
-  try {
-    const res = await cartService.getCartProducts()
-    return res
-  } catch (error) {
-    console.error('Error fetching wishlist products:', error)
-    return rejectWithValue({
-      error: 'An error occurred while fetching cart products.',
-    })
+export const getCartProducts = createAsyncThunk(
+  'cart/getCartProducts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await cartService.getCartProducts()
+      return res
+    } catch (error) {
+      console.error('Error fetching wishlist products:', error)
+      return rejectWithValue({
+        error: 'An error occurred while fetching cart products.',
+      })
+    }
   }
-})
+)
 
 export const addToCart = createAsyncThunk(
   'cart/addToCart',
-  async (cartItems: CartItemProduct, thunkAPI: any) => {
+  async (cartItems: CartItemProduct, thunkAPI) => {
     try {
       return await cartService.addToCart(cartItems)
     } catch (error) {
@@ -45,7 +48,6 @@ export const addToCart = createAsyncThunk(
     }
   }
 )
-
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -58,16 +60,19 @@ const cartSlice = createSlice({
       state.message = ''
     },
   },
-  extraReducers: (builder: any) => {
+  extraReducers: (builder) => {
     builder
       .addCase(getCartProducts.pending, (state: initialStateTypes) => {
         state.isLoading = true
       })
-      .addCase(getCartProducts.fulfilled, (state: initialStateTypes, action: any) => {
-        state.isLoading = false
-        state.cart = action.payload
-        state.message = 'success'
-      })
+      .addCase(
+        getCartProducts.fulfilled,
+        (state: initialStateTypes, action) => {
+          state.isLoading = false
+          state.cart = action.payload
+          state.message = 'success'
+        }
+      )
       .addCase(getCartProducts.rejected, (state: initialStateTypes) => {
         state.isLoading = false
         state.cart = []
@@ -77,13 +82,13 @@ const cartSlice = createSlice({
       .addCase(addToCart.pending, (state: initialStateTypes) => {
         state.isLoading = true
       })
-      .addCase(addToCart.fulfilled, (state: initialStateTypes, action: any) => {
+      .addCase(addToCart.fulfilled, (state: initialStateTypes, action) => {
         state.isLoading = false
         state.cartItem = action.payload
         state.error = false
         state.message = 'success'
       })
-      .addCase(addToCart.rejected, (state: initialStateTypes, action: any) => {
+      .addCase(addToCart.rejected, (state: initialStateTypes, action) => {
         state.isLoading = false
         state.cart = []
         state.error = true

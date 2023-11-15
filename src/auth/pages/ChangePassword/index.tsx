@@ -137,7 +137,9 @@ const ChangePassword = () => {
                       type={showPassword ? 'text' : 'password'}
                       name="passwordCurrent"
                       value={formData.passwordCurrent}
-                      onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => handleChange(e)}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                        handleChange(e)
+                      }
                       error={!!errors.oldPassword}
                       helperText={errors.oldPassword}
                       InputProps={{
@@ -164,7 +166,9 @@ const ChangePassword = () => {
                       type={showPassword ? 'text' : 'password'}
                       name="password"
                       value={formData.password}
-                      onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => handleChange(e)}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                        handleChange(e)
+                      }
                       error={!!errors.newPassword}
                       helperText={errors.newPassword}
                       InputProps={{
@@ -191,7 +195,9 @@ const ChangePassword = () => {
                       type={showPassword ? 'text' : 'password'}
                       name="passwordConfirm"
                       value={formData.passwordConfirm}
-                      onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => handleChange(e)}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                        handleChange(e)
+                      }
                       error={!!errors.confirmPassword}
                       helperText={errors.confirmPassword}
                       InputProps={{

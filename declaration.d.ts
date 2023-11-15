@@ -1,18 +1,12 @@
-declare module "*.png";
-declare module "*.svg";
-declare module "*.jpeg";
-declare module "*.jpg";
-declare module "react-rating-stars-component";
-declare module "react-spinners";
-declare module "@fortawesome/react-fontawesome"
-declare module "@fortawesome/free-solid-svg-icons"
-declare module "@reduxjs/toolkit/dist/query/react"
-declare module "redux"
-declare module "@reduxjs/toolkit"
-
-
-declare module "@mui/material";
-declare module "react-toastify";
-declare module "react-query";
-declare module "reactstrap";
-
+declare module '*.png'
+declare module '*.svg'
+declare module '*.jpeg'
+declare module '*.jpg'
+declare module 'react-image-zoom'
+declare module 'react-image-magnify'
+declare module 'react-rating-stars-component'
+declare module 'react-tag-input'
+declare module 'react-tag-input-component'
+declare module '@stripe/react-stripe-js'
+declare module '@stripe/stripe-js'
+declare module 'uuid'

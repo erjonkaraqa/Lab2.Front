@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import ProductWrapper from "./ProductWrapper";
-import AuthorizedSeller from "@/assets/images/appleAuthorized.png";
-import BestPrice from "@/assets/images/cmimimeimire.png";
-import "./style.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useState } from 'react'
+import ProductWrapper from './ProductWrapper'
+import AuthorizedSeller from '@/assets/images/appleAuthorized.png'
+import BestPrice from '@/assets/images/cmimimeimire.png'
+import './style.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faCheck,
   faCreditCard,
@@ -12,49 +12,49 @@ import {
   faMoneyBillTransfer,
   faStar,
   faTruck,
-} from "@fortawesome/free-solid-svg-icons";
-import TebImg from "@/assets/images/teb.png";
-import RbkoImg from "@/assets/images/rbko.png";
-import SwipperSlider from "./SwipperSlider";
-import Breadcrumb from "../Breadcrumb";
-import Rating from "react-rating-stars-component";
-import RatingModal from "./RatingModal";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { useGetRatingWithProductIdQuery } from "@/store/products/RTKProductSlice";
-import { getProductWithId } from "@/store/products/productSlice";
-import { useLocation } from "react-router-dom";
+} from '@fortawesome/free-solid-svg-icons'
+import TebImg from '@/assets/images/teb.png'
+import RbkoImg from '@/assets/images/rbko.png'
+import SwipperSlider from './SwipperSlider'
+import Breadcrumb from '../Breadcrumb'
+import Rating from 'react-rating-stars-component'
+import RatingModal from './RatingModal'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
+import { useAppSelector } from '@/hooks/useAppSelector'
+import { useGetRatingWithProductIdQuery } from '@/store/products/RTKProductSlice'
+import { getProductWithId } from '@/store/products/productSlice'
+import { useLocation } from 'react-router-dom'
 
-const FullStar = () => <FontAwesomeIcon icon={faStar} />;
+const FullStar = () => <FontAwesomeIcon icon={faStar} />
 
 const ProductItem = () => {
-  const dispatch = useAppDispatch();
-  const id = useLocation().pathname.split("/")[2];
-  const [activeProdTitle, setActiveProdTitle] = useState("1");
-  const [quantity, setQuantity] = useState<number>(1);
-  const { product, loading, error } = useAppSelector((state) => state.products);
-  const { data: productRatings } = useGetRatingWithProductIdQuery(id);
-  const [ratingsModal, setRatingsModal] = useState<boolean>(false);
+  const dispatch = useAppDispatch()
+  const id = useLocation()?.pathname.split('/')[2]
+  const [activeProdTitle, setActiveProdTitle] = useState('1')
+  const [quantity, setQuantity] = useState<number>(1)
+  const { product, loading, error } = useAppSelector((state) => state.products)
+  const { data: productRatings } = useGetRatingWithProductIdQuery(id)
+  const [ratingsModal, setRatingsModal] = useState<boolean>(false)
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
-      setQuantity(quantity - 1);
+      setQuantity(quantity - 1)
     }
-  };
+  }
 
   useEffect(() => {
-    dispatch(getProductWithId(id));
-  }, [dispatch, id]);
+    dispatch(getProductWithId(id))
+  }, [dispatch, id])
 
   const increaseQuantity = () => {
-    setQuantity(quantity + 1);
-  };
+    setQuantity(quantity + 1)
+  }
 
   const productDetailsTitles = [
-    { id: "1", title: "Description" },
-    { id: "2", title: "Details" },
-    { id: "3", title: "Ratings" },
-  ];
+    { id: '1', title: 'Description' },
+    { id: '2', title: 'Details' },
+    { id: '3', title: 'Ratings' },
+  ]
 
   return (
     <div className="master-wrapper-content px-2 md:px-0 mx-auto">
@@ -69,11 +69,11 @@ const ProductItem = () => {
               id="product-img-wrapper"
             >
               <div className="position-absolute top-0 left-0 md:left-16 d-flex align-items-center justify-content-center z-10">
-                <img src={AuthorizedSeller} alt="" style={{ width: "100px" }} />
+                <img src={AuthorizedSeller} alt="" style={{ width: '100px' }} />
               </div>
 
               <span className="w-36 position-absolute top-0 right-0 md:right-6 d-flex align-items-center justify-content-center z-10">
-                <img src={BestPrice} alt="" style={{ width: "100px" }} />
+                <img src={BestPrice} alt="" style={{ width: '100px' }} />
               </span>
               <SwipperSlider
                 images={product?.images}
@@ -120,12 +120,12 @@ const ProductItem = () => {
                     Brand origin:
                     <span
                       className="d-flex justify-content-center align-items-center ml-1 rounded-md"
-                      style={{ height: "1.2rem", width: "1.2rem" }}
+                      style={{ height: '1.2rem', width: '1.2rem' }}
                     >
                       <img
                         className="rounded-md position-relative"
                         src={
-                          "https://hhstsyoejx.gjirafa.net/gjirafa50core/flags/us.svg"
+                          'https://hhstsyoejx.gjirafa.net/gjirafa50core/flags/us.svg'
                         }
                         title="USA and Canada"
                       />
@@ -157,7 +157,7 @@ const ProductItem = () => {
                           id="price-value-160697"
                           className="product-price-160697  text-2xl fw-bold text-gray-700 price-value-160697"
                         >
-                          {product?.price.toLocaleString("en-US")}.00 €
+                          {product?.price.toLocaleString('en-US')}.00 €
                         </div>
                       </div>
                     )}
@@ -166,11 +166,11 @@ const ProductItem = () => {
                 <div className="d-flex flex-col justify-content-end pl-2 pb-1 text-gray-600 font-medium">
                   <span
                     className="product-discount"
-                    style={{ fontSize: "9px" }}
+                    style={{ fontSize: '9px' }}
                   >
                     Përfshirë TVSH-në
                   </span>
-                  <span style={{ fontSize: "9px" }}>Pa TVSH 450 €</span>
+                  <span style={{ fontSize: '9px' }}>Pa TVSH 450 €</span>
                 </div>
               </div>
 
@@ -203,15 +203,15 @@ const ProductItem = () => {
                   width="44"
                   src={RbkoImg}
                   alt="Raifeissen Bank"
-                  style={{ width: "44px" }}
-                />{" "}
+                  style={{ width: '44px' }}
+                />{' '}
                 <img
                   width="44"
                   src={TebImg}
                   alt="Teb Bank"
-                  style={{ width: "44px" }}
-                />{" "}
-                deri në 12 këste pa kamatë për vetëm{" "}
+                  style={{ width: '44px' }}
+                />{' '}
+                deri në 12 këste pa kamatë për vetëm{' '}
                 <span className="text-primary font-bold installment-price-value-160697">
                   91.62 €/muaj
                 </span>
@@ -405,7 +405,7 @@ const ProductItem = () => {
                 <li
                   key={item.id}
                   onClick={() => setActiveProdTitle(item.id)}
-                  className={activeProdTitle === item.id ? "active" : ""}
+                  className={activeProdTitle === item.id ? 'active' : ''}
                 >
                   <a>{item.title}</a>
                 </li>
@@ -413,10 +413,10 @@ const ProductItem = () => {
             </ul>
 
             <div className="product-details__content p-3 md:p-6">
-              {activeProdTitle === "1" && (
+              {activeProdTitle === '1' && (
                 <div className="tab1 text-sm">{product?.description}</div>
               )}
-              {activeProdTitle === "2" && (
+              {activeProdTitle === '2' && (
                 <div className="d-flex flex-col position-relative">
                   <div
                     className="grid grid-cols-1  md:grid-cols-2"
@@ -428,14 +428,14 @@ const ProductItem = () => {
                           {product.key}:
                         </div>
                         <div className="spec-value py-2 m-0 text-xs">
-                          {product.value}{" "}
+                          {product.value}{' '}
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
-              {activeProdTitle === "3" && (
+              {activeProdTitle === '3' && (
                 <div className="product-reviews">
                   <div className="d-flex pb-6 justify-content-around border-b">
                     <div className="d-flex align-items-center text-center flex-col ratingsAndReviews">
@@ -463,9 +463,9 @@ const ProductItem = () => {
                       <div className="product-review-item mt-4" key={index}>
                         <div className="d-flex justify-content-between align-items-center">
                           <span className="inline-block text-base font-semibold capitalize-first-letter">
-                            {typeof productItem.productID === "string"
-                              ? ""
-                              : productItem.productID.title}{" "}
+                            {typeof productItem.productID === 'string'
+                              ? ''
+                              : productItem.productID.title}{' '}
                           </span>
                           <Rating
                             count={5}
@@ -511,7 +511,7 @@ const ProductItem = () => {
                   </div>
                 </div>
               </div>
-              {activeProdTitle === "3" && (
+              {activeProdTitle === '3' && (
                 <div className="product-reviews">
                   <div className="d-flex pb-6 justify-content-around border-b">
                     <div className="d-flex align-items-center text-center flex-col ratingsAndReviews">
@@ -568,13 +568,13 @@ const ProductItem = () => {
           <RatingModal
             show={ratingsModal}
             onHide={() => setRatingsModal(false)}
-            userID={"test1"}
+            userID={'test1'}
             productID={id}
           />
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductItem;
+export default ProductItem

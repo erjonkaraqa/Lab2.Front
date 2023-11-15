@@ -19,8 +19,8 @@ import Header from '@/components/User/Header/Header'
 
 const UserRoutes = () => {
   const isUserAuthenticated = useAppSelector((state) => state.auth.user)
-  console.log('isUserAuthenticated', isUserAuthenticated)
   const currentPath = useLocation().pathname
+  console.log('currentPath', currentPath)
   const isLoginPage =
     currentPath.startsWith('/login') ||
     currentPath === '/register' ||

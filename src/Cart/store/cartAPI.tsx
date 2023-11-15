@@ -1,4 +1,3 @@
-
 import { CartItem, addToCartType } from '@/utils/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 
@@ -16,27 +15,27 @@ export const cartsAPI = createApi({
       return headers
     },
   }),
-  endpoints: (builder: any) => ({
-    // getCartProducts: builder.query<CartItem, void>({
-    //   query: () => `/api/v1/cart`,
-    //   // providesTags: ['CartProducts' ],
-    // }),
-    // addToCartQuery: builder.mutation<void, addToCartType>({
-    //   query: (items) => ({
-    //     url: 'api/v1/cart/addToCart',
-    //     method: 'POST',
-    //     body: {
-    //       items: [
-    //         {
-    //           product: `${items.productId}`,
-    //           quantity: items.quantity,
-    //           price: items.price,
-    //         },
-    //       ],
-    //     },
-    //   }),
-    //   // providesTags: [{ type: 'CartProducts', id: 'CART' }],
-    // }),
+  endpoints: (builder) => ({
+    getCartProducts: builder.query<CartItem, void>({
+      query: () => `/api/v1/cart`,
+      // providesTags: ['CartProducts' ],
+    }),
+    addToCartQuery: builder.mutation<void, addToCartType>({
+      query: (items) => ({
+        url: 'api/v1/cart/addToCart',
+        method: 'POST',
+        body: {
+          items: [
+            {
+              product: `${items.productId}`,
+              quantity: items.quantity,
+              price: items.price,
+            },
+          ],
+        },
+      }),
+      // providesTags: [{ type: 'CartProducts', id: 'CART' }],
+    }),
     deleteCartProduct: builder.mutation({
       query: (id: string) => ({
         url: `/api/v1/cart/${id}`,

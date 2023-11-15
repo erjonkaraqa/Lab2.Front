@@ -11,13 +11,13 @@ import './style.css'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Gjirafa50 from '@/assets/images/gjirafa50.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import { faMeteor, faTShirt } from '@fortawesome/free-solid-svg-icons'
-import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { login } from '@/store/auth/authSlice'
 import LoginIdentifier from '@/auth/components/LoginForm/LoginIdentifier'
 import LoginWithAnotherAccount from '@/auth/components/LoginForm/LoginWithAnotherAccount'
 import LoginVerify from '@/auth/components/LoginForm/LoginVerify'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
+import { useAppSelector } from '@/hooks/useAppSelector'
 
 type ExternalLinksProps = {
   label: string

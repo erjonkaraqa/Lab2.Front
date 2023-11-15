@@ -200,7 +200,7 @@ const BusinessForm = ({
                 className="cities-select"
                 aria-label="Default select example"
               >
-                {countries?.map((country) =>
+                {countries?.map((country: any) =>
                   country.cities.map((city: any, index: any) => (
                     <option
                       key={index}

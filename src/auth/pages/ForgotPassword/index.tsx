@@ -3,9 +3,10 @@ import Logo from '@/assets/images/gjirafa50.png'
 import { Field } from 'redux-form'
 import { TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { validateUserByEmail } from '@/store/auth/authSlice'
 import LoadingBar from '@/ui/Loading/LoadingBar'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
+import { useAppSelector } from '@/hooks/useAppSelector'
 
 const ForgotPassword = () => {
   const navigate = useNavigate()

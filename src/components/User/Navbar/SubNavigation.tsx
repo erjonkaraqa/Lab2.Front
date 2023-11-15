@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import './style.css'
-import BannerDropdown from '@/ui/Dropdown/BannerDropdown'
 import TestImage from '@/assets/images/asus.png'
 import Computer from '@/assets/images/kompjuterDp.png'
 import Laptop from '@/assets/images/laptopDd.png'
@@ -30,6 +29,7 @@ import KartelGrafike from '@/assets/images/kartelagrafikeSmallBanner.png'
 import PllakaAme from '@/assets/images/pllakaameSmallBanner.png'
 import MemorieOperative from '@/assets/images/memorieOperativeSmallBanner.png'
 import AppleLogo from '@/assets/images/appleSmallBannerLogo.png'
+import BannerDropdown from '@/ui/Dropdown/BannerDropdown'
 
 type props = {
   handleDropdownVisibility: (isVisible: boolean) => void
@@ -67,6 +67,7 @@ const SubNavigation = ({
               Computer,Laptop & Server
             </a>
             <BannerDropdown
+              link={'/computer-laptop-server'}
               buttonContent="test"
               content="first dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -114,6 +115,7 @@ const SubNavigation = ({
               Celular,Tablet & Navigim
             </a>
             <BannerDropdown
+              link={'/telephone-tablet-ebook-navigation'}
               content="second dropdown"
               onVisibilityChange={handleDropdownVisibility}
               categories={[
@@ -160,6 +162,7 @@ const SubNavigation = ({
               TV,Audio & Foto
             </a>
             <BannerDropdown
+              link={'/tv-audio-foto-video'}
               buttonContent="test"
               content="third dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -208,6 +211,7 @@ const SubNavigation = ({
             </a>
 
             <BannerDropdown
+              link={'/gaming'}
               buttonContent="test"
               content="fourth dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -256,6 +260,7 @@ const SubNavigation = ({
             </a>
 
             <BannerDropdown
+              link={'/smart'}
               buttonContent="test"
               content="fifth dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -304,6 +309,7 @@ const SubNavigation = ({
             </a>
 
             <BannerDropdown
+              link={'/accessories'}
               buttonContent="test"
               content="seventh dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -352,6 +358,7 @@ const SubNavigation = ({
             </a>
 
             <BannerDropdown
+              link={'/graphic-procesor-motherboard-ram-memory'}
               buttonContent="test"
               content="eight dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -400,6 +407,7 @@ const SubNavigation = ({
             </a>
 
             <BannerDropdown
+              link={'/computer-laptop-server'}
               buttonContent="test"
               content="nine dropdown"
               onVisibilityChange={handleDropdownVisibility}
