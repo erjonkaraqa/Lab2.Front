@@ -16,11 +16,13 @@ import NotFound from '@/pages/NotFound'
 import Footer from '@/components/User/Footer'
 import Customer from '../pages/Costumer/Costumer'
 import Header from '@/components/User/Header/Header'
+import CheckoutCompleted from '@/pages/CheckoutCompleted'
+import OnePageCheckout from '@/pages/OnePageCheckout'
 
 const UserRoutes = () => {
   const isUserAuthenticated = useAppSelector((state) => state.auth.user)
   const currentPath = useLocation().pathname
-  console.log('currentPath', currentPath)
+
   const isLoginPage =
     currentPath.startsWith('/login') ||
     currentPath === '/register' ||
@@ -43,6 +45,8 @@ const UserRoutes = () => {
 
         {isUserAuthenticated ? (
           <>
+            <Route path="/checkout/completed" element={<CheckoutCompleted />} />
+            <Route path="/onepagecheckout" element={<OnePageCheckout />} />
             <Route path="/changePassword" element={<ChangePassword />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/wishlist" element={<Wishlist />} />

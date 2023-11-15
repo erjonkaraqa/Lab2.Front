@@ -236,3 +236,21 @@ export type LoginUserData = {
   email: string
   password: string
 }
+export type NewAddressCheckout = {
+  type: string
+  name: string
+  surname: string
+  company?: string
+  fiscalNumber?: string
+  country: string
+  city: string
+  address: string
+  email: string
+  telephone: number | null
+}
+export type OrderData = {
+  data: any[]
+  hasMore: boolean
+  object: string
+  url: string
+}

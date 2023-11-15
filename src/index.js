@@ -12,11 +12,21 @@ import store from './store'
 import { ToastContainer } from 'react-toastify'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
+
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+
+const stripePromise = loadStripe(
+  'pk_test_51O6hLnBcLIAO3WbOPpjFpaQxGHDBZRkv0SSZxmsXzP46RL4ZguQ5pEZ8JSnTrK6OecJNPwrGZFj61yESSBDFxBYf00RW6LNUCs'
+)
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
-      <ToastContainer />
+      <Elements stripe={stripePromise}>
+        <App />
+        <ToastContainer />
+      </Elements>
     </Provider>
   </React.StrictMode>
 )
