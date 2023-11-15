@@ -236,3 +236,15 @@ export type LoginUserData = {
   email: string
   password: string
 }
+export type UserInfoTypes = {
+  name: string
+  surname: string
+  birthdate?: Date
+  gender?: 'male' | 'female'
+}
+export type UpdateMeTypes = {
+  name: string
+  surname: string
+  birthdate?: Date
+  gender?: 'male' | 'female'
+}
