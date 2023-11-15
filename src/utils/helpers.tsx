@@ -1,5 +1,15 @@
 import React from "react";
-import { ImageHelperTypes } from "./types";
+import { ImageHelperTypes, ProductCategory } from "./types";
+
+export function getCategoryNameById(
+  categories: ProductCategory[],
+  categoryId: string
+) {
+  const category = categories.find(
+    (cat: ProductCategory) => cat._id === categoryId
+  )
+  return category ? category.name : 'Unknown Category'
+}
 
 export const Image = ({ src, alt, className, ...props }: ImageHelperTypes) => {
   const baseUrl = "http://127.0.0.1:5000/img/products/";
