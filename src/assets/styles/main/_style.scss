@@ -1046,3 +1046,58 @@ input[type='number'] {
 .scrollbar-modifier {
   scrollbar-color: #888 #f4f4f4;
 }
+@media (min-width: 811px) {
+  .md\:grid-flow-col {
+    grid-auto-flow: column;
+  }
+}
+@media (min-width: 811px) {
+  .md\:p-0 {
+    padding: 0 !important;
+  }
+}
+.col-span-10 {
+  grid-column: span 10 / span 10;
+}
+.center-3 {
+  width: 100%;
+}
+.side-3 {
+  width: 100%;
+}
+@media (min-width: 811px) {
+  .center-3 {
+    float: left !important;
+    width: 68.7%;
+  }
+}
+@media (min-width: 811px) {
+  .side-3 {
+    float: right !important;
+    width: 30%;
+  }
+}
+@media (max-width: 1000px) {
+  #mobile-menu-categories {
+    display: none;
+  }
+}
+
+.mobile-sidebar-menu {
+  top: 0;
+  max-height: 100vh;
+  min-height: 100vh;
+  position: fixed;
+  z-index: 99999999;
+  width: 0;
+  left: 0;
+}
+.mobile-sidebar-menu-active {
+  top: 0;
+  max-height: 100vh;
+  min-height: 100vh;
+  position: fixed;
+  z-index: 99999999;
+  width: 300px;
+  left: 0;
+}

@@ -28,6 +28,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice'
 import { Image } from '@/utils/helpers'
+import { useAppSelector } from '@/hooks/useAppSelector'
 
 type DropdownProps = {
   children?: ReactNode
@@ -40,7 +41,7 @@ type DropdownProps = {
   direction: MenuDirection | undefined
   menuClassName: string
   align: MenuAlign | undefined
-  handleDeleteCartProduct: (productId: number | string) => void
+  handleDeleteCartProduct: (productId: string) => void
   hasCartNumber?: boolean
 }
 
@@ -58,23 +59,12 @@ const CustomDropdown = ({
 }: DropdownProps) => {
   const navigate = useNavigate()
   const [hoveredItemId, setHoveredItemId] = useState<string | null>(null)
+  const user = useAppSelector((state) => state.auth.user?.user)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const ref = useRef(null)
   const [isOpen, setOpen] = useState(false)
   const anchorProps = useClick(isOpen, setOpen)
-  const {
-    data: cart,
-    refetch,
-    isLoading: cartLoading,
-  } = useGetCartProductsQuery()
-
-  // ... rest of your component ...
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen) // Toggle the menu open/closed state
-  }
-
-  console.log('cartItemProducts', cartItemProducts)
+  const { data: cart, isLoading: cartLoading } = useGetCartProductsQuery()
 
   const cartItemClassName = ({ hover }: any) =>
     hover ? 'my-menuCartItem-hover' : 'my-menuCartItem'
@@ -88,16 +78,7 @@ const CustomDropdown = ({
   }
 
   const totalPriceInfo = CalculateTotalPrice(cart?.products)
-  const {
-    totalPriceWithoutVAT,
-    totalPriceWithVAT,
-    totalTvsh,
-    discountValueInEuros,
-    priceAfterDiscount,
-    discountedTotalPriceWithoutVAT,
-  } = totalPriceInfo
-
-  console.log('menuClassName', menuClassName)
+  const { totalPriceWithVAT } = totalPriceInfo
 
   return (
     <>
@@ -139,11 +120,6 @@ const CustomDropdown = ({
                 <MenuItem key={index} className={cartItemClassName}>
                   <div className="d-flex justify-content-between text-xs align-items-center w-100">
                     <div className="product-image position-relative d-block">
-                      {/* <img
-                        src={item.product.imageCover || undefined}
-                        alt="IMG"
-                        className="w-100 h-100"
-                      /> */}
                       <a
                         className="w-10 h-10 d-flex justify-content-center align-items-center small-image-container"
                         href="/maus-logitech-g-pro-x-superlight-i-bardhe"
@@ -204,7 +180,7 @@ const CustomDropdown = ({
             <MenuItem>Nuk keni ndonje product</MenuItem>
           )
         ) : (
-          <>
+          <div className="bb">
             <div className="userinfo-div">
               <MenuItem
                 className={menuItemClassName}
@@ -228,13 +204,38 @@ const CustomDropdown = ({
               <FontAwesomeIcon icon={faHeart} />
               Wishlist
             </MenuItem>
+            {user?.role === 'admin' && (
+              <>
+                <MenuItem
+                  className={menuItemClassName}
+                  onClick={() => navigate('/admin/create-product')}
+                >
+                  <FontAwesomeIcon icon={faHeart} />
+                  Create product
+                </MenuItem>
+                <MenuItem
+                  className={menuItemClassName}
+                  onClick={() => navigate('/admin/return-requests')}
+                >
+                  <FontAwesomeIcon icon={faHeart} />
+                  Return requests
+                </MenuItem>
+                <MenuItem
+                  className={menuItemClassName}
+                  onClick={() => navigate('/admin/orders')}
+                >
+                  <FontAwesomeIcon icon={faHeart} />
+                  Client orders
+                </MenuItem>
+              </>
+            )}
             <div className="logout-div">
               <MenuItem className={menuItemClassName} onClick={logout}>
                 <FontAwesomeIcon icon={faUserEdit} />
                 Logout
               </MenuItem>
             </div>
-          </>
+          </div>
         )}
       </ControlledMenu>
     </>

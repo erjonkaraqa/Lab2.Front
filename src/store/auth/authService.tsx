@@ -2,6 +2,7 @@ import {
   AuthPromise,
   ChangePasswordInput,
   LoginUserData,
+  ResetPasswordInput,
   SignupUserData,
   UpdateMeTypes,
   User,
@@ -16,17 +17,14 @@ type UserValidationResponse = {
   message: string
 }
 
-const signup = async (userData: User): Promise<User> => {
+const signup = async (userData: SignupUserData): Promise<User> => {
   const response = await axiosInstance.post(`${API_URL}/signup`, userData)
 
-  console.log('response.data', response.data)
-
   if (response.data) {
-    // localStorage.setItem('access_token', response.data.token)
     localStorage.setItem('user', JSON.stringify(response.data))
   }
 
-  return response.data as User
+  return response.data
 }
 
 const login = async (userData: LoginUserData) => {
@@ -42,10 +40,14 @@ const login = async (userData: LoginUserData) => {
   return response.data
 }
 
-const logout = () => {
-  // const response = await axiosInstance.get(API_URL + '/logout')
-  localStorage.removeItem('user')
-  localStorage.removeItem('token')
+const logout = async () => {
+  const response = await axiosInstance.get(API_URL + '/logout')
+
+  if (response.data) {
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+  }
+  return response.data
 }
 
 const userLogin = async () => {
@@ -98,7 +100,6 @@ const changePassword = async (
 const updateMe = async (body: UpdateMeTypes) => {
   try {
     const response = await axiosInstance.patch(API_URL + 'updateMe', body)
-    console.log('response', response)
 
     const updatedUser = response.data
 
@@ -117,6 +118,23 @@ const updateMe = async (body: UpdateMeTypes) => {
   }
 }
 
+const forgotPassword = async (email: string) => {
+  const response = await axiosInstance.post(API_URL + 'forgotPassword', {
+    email: email,
+  })
+
+  return response.data
+}
+
+const resetPassword = async (body: ResetPasswordInput, token: string) => {
+  const response = await axiosInstance.patch(
+    API_URL + `resetPassword/${token}`,
+    body
+  )
+
+  return response.data
+}
+
 const authService = {
   signup,
   login,
@@ -126,7 +144,9 @@ const authService = {
   refreshToken,
   validateUserByEmail,
   changePassword,
-  updateMe
+  forgotPassword,
+  resetPassword,
+  updateMe,
 }
 
 export default authService

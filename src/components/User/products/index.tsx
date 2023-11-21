@@ -1,11 +1,14 @@
 import React from 'react'
+import LoadingBar from '../../../ui/Loading/LoadingBar'
+import { useGetProductsQuery } from '../../../store/products/RTKProductSlice'
 import ProductItem from './productItem/ProductItem'
 import './style.css'
-import { useGetProductsQuery } from '@/store/products/RTKProductSlice'
-import LoadingBar from '@/ui/Loading/LoadingBar'
+import { useAppSelector } from '@/hooks/useAppSelector'
 
 function ProductList() {
   const { data, error, isLoading } = useGetProductsQuery()
+  const user = useAppSelector((state) => state.auth.user?.user)
+
   return (
     <div className="master-wrapper-content mx-auto p-0">
       {isLoading ? (
@@ -15,7 +18,6 @@ function ProductList() {
           className="text-center"
           style={{ fontWeight: 600, fontSize: '30px' }}
         >
-          {/* {error} */}
           Error while getting the products
         </div>
       ) : (
@@ -27,7 +29,6 @@ function ProductList() {
             data?.length &&
             data.map((product) => (
               <ProductItem
-                // brand={product.brand}
                 id={product.id}
                 category={product.category}
                 title={product.title}
@@ -46,10 +47,7 @@ function ProductList() {
                 isNew={product.isNew}
                 tfTransport={product.tfTransport}
                 warranty={product.warranty}
-                // rating={product.ratingsAverage}
-                // thumbnail={product.imageCover}
-                // key={product.id}
-                // productDetails={product.details},
+                hasAccess={user?.role === 'admin'}
               />
             ))}
         </div>

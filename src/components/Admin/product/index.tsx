@@ -1,24 +1,28 @@
-import React, { ChangeEvent } from 'react'
-import { ProductInput } from '@/utils/types'
+import { Product, ProductInput } from '@/utils/types'
+import { WithContext as ReactTags } from 'react-tag-input'
 import { TagsInput } from 'react-tag-input-component'
 import './style.css'
 import {
+  useCreateProductMutation,
   useGetProductCategoriesQuery,
   useGetProductsQuery,
 } from '@/store/products/RTKProductSlice'
 import axiosInstance from '@/api/axiosInstance'
-import Button from 'react-bootstrap/Button'
+const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
+
+import React, { ChangeEvent } from 'react'
 import { useState } from 'react'
+import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
+import InputGroup from 'react-bootstrap/InputGroup'
 import Row from 'react-bootstrap/Row'
-
-const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
 
 const CreateProduct = () => {
   const { data: products } = useGetProductsQuery()
   const { data: categories } = useGetProductCategoriesQuery()
   const [validated, setValidated] = useState(false)
+  const [createProduct] = useCreateProductMutation()
   const [imageCover, setImageCover] = useState<File | null>(null)
   const [images, setImages] = useState<File[]>([])
   const [formData, setFormData] = useState<ProductInput>({
@@ -96,7 +100,7 @@ const CreateProduct = () => {
 
   const handleSubmit = (event: any) => {
     const form = event.currentTarget
-
+    console.log('e.currentTarget', event.currentTarget)
     if (form.checkValidity() === false) {
       event.preventDefault()
       event.stopPropagation()
@@ -451,9 +455,9 @@ const CreateProduct = () => {
                 ))}
               </Form.Control>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-              <Form.Control.Feedback type="invalid">
+              {/* <Form.Control.Feedback type="invalid">
                 Please select a related product.
-              </Form.Control.Feedback>
+              </Form.Control.Feedback> */}
             </Form.Group>
             <Form.Group as={Col} md="12" controlId="tags">
               <Form.Label>Tags:</Form.Label>

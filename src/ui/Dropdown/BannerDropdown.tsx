@@ -1,6 +1,11 @@
-import React, { ReactNode, useState } from 'react'
-import asus from '@/assets/images/asus.png'
-import '@szhsin/react-menu/dist/index.css'
+import { Menu, MenuItem } from '@szhsin/react-menu'
+import '@szhsin/react-menu/dist/index.css' // Make sure to import the library's CSS
+import React, {
+  DetailedHTMLProps,
+  ImgHTMLAttributes,
+  ReactNode,
+  useState,
+} from 'react'
 
 type Category = {
   [category: string]: {
@@ -24,7 +29,6 @@ const BannerDropdown = ({
   categories,
   link,
 }: DropdownProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(true)
   return (
     <ul className="sublist first-level gap-y-2.5 text-start">
       <div

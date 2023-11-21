@@ -10,16 +10,20 @@ import { returnRequestsAPI } from './returnRequests/returnRequestAPI'
 import orderSlice from './orders/orderSlice'
 import authSlice from './auth/authSlice'
 import addressesSlice from './addresses/addressesSlice'
+import wishlistSlice from '@/wishlist/store/wishlistSlice'
+import { wishlistsAPI } from '@/wishlist/store/wishlistAPI'
 
 const rootReducer = combineReducers({
   products: productSlice,
   auth: authSlice,
-  cart: cartSlice,
   form: formReducer,
-  orders: orderSlice,
+  cart: cartSlice,
+  wishlist: wishlistSlice,
   address: addressesSlice,
-  [cartsAPI.reducerPath]: cartsAPI.reducer,
+  orders: orderSlice,
   [productsAPI.reducerPath]: productsAPI.reducer,
+  [cartsAPI.reducerPath]: cartsAPI.reducer,
+  [wishlistsAPI.reducerPath]: wishlistsAPI.reducer,
   [returnRequestsAPI.reducerPath]: returnRequestsAPI.reducer,
 })
 

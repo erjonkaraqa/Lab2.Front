@@ -1,14 +1,27 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import {
+  SerializedError,
+  createAsyncThunk,
+  createSlice,
+} from '@reduxjs/toolkit'
 import authService from './authService'
 import {
   AuthPromise,
   ChangePasswordInput,
   LoginUserData,
+  ResetPasswordInput,
   SignupUserData,
   UpdateMeTypes,
   User,
 } from '@/utils/types'
 import { PayloadAction } from '@reduxjs/toolkit'
+import axiosInstance from '@/api/axiosInstance'
+
+const API_URL = 'api/v1/users/'
+
+type ResetPasswordThunkArgs = {
+  body: ResetPasswordInput
+  token: string
+}
 
 interface AuthState {
   user: User | null
@@ -17,7 +30,7 @@ interface AuthState {
   countries: any[] | null // Replace 'any' with the actual type of your countries data
   isLoading: boolean
   isSuccess: boolean
-  error: string | null
+  error: string | null | SerializedError
   message?: string
   accessToken: string | null
   refreshToken: string | null
@@ -43,7 +56,7 @@ const initialState: AuthState = {
 
 export const signup = createAsyncThunk(
   'auth/signup',
-  async (user: User, thunkAPI: any) => {
+  async (user: SignupUserData, thunkAPI) => {
     try {
       return await authService.signup(user)
     } catch (error: any) {
@@ -77,8 +90,14 @@ export const login = createAsyncThunk(
   }
 )
 
-export const logout = createAsyncThunk('auth/logout', () => {
-  authService.logout()
+export const logout = createAsyncThunk('auth/logout', async () => {
+  try {
+    const response = await authService.logout()
+    return response.data
+  } catch (error) {
+    console.error('Logout error:', error)
+    throw error
+  }
 })
 
 export const userLogin = createAsyncThunk('auth/userLogin', async () => {
@@ -155,6 +174,39 @@ export const updateMe = createAsyncThunk(
       return response
     } catch (error: any) {
       return rejectWithValue(error.response.data)
+    }
+  }
+)
+export const forgotPassword = createAsyncThunk(
+  'auth/forgotPassword',
+  async (email: string, thunkAPI) => {
+    try {
+      return await authService.forgotPassword(email)
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  async ({ body, token }: ResetPasswordThunkArgs, thunkAPI) => {
+    try {
+      return await authService.resetPassword(body, token)
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
     }
   }
 )
@@ -313,6 +365,39 @@ const authSlice = createSlice({
         state.isSuccess = false
         state.isLoading = false
         state.error = 'Error when trying to update user'
+        state.message = action.error.message
+      })
+      .addCase(forgotPassword.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(forgotPassword.fulfilled, (state, { payload }) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.error = null
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.countries = null
+        state.isSuccess = false
+        state.isLoading = false
+        state.authPromise = null
+        state.error = action.error
+        state.message = action.error.message
+        state.validatedUserByEmail = false
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(resetPassword.fulfilled, (state, { payload }) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.error = null
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.countries = null
+        state.isSuccess = false
+        state.isLoading = false
+        state.authPromise = null
+        state.error = action.error
         state.message = action.error.message
       })
   },
