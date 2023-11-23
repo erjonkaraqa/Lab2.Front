@@ -1,25 +1,30 @@
-import React, { useEffect } from "react";
-import "./style.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { Form, FormSelect, InputGroup } from "react-bootstrap";
-import { Image, formatDateToDDMMYYYY } from "@/utils/helpers";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { Order, OrderProduct } from "@/utils/types";
-import WrappingCard from "@/ui/WrappingCard";
-import { getOrderWithUserID } from "@/store/orders/orderSlice";
+import React, { useEffect, useState } from 'react'
+import WrappingCard from '../../../../../ui/WrappingCard'
+import './style.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faArrowRight,
+  faReorder,
+  faSearch,
+} from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom'
+import { Form, FormSelect, InputGroup } from 'react-bootstrap'
+import { getOrderWithUserID } from '@/store/orders/orderSlice'
+import { Order, OrderProduct } from '@/utils/types'
+import { Image, formatDateToDDMMYYYY } from '@/utils/helpers'
+import PaginationComponent from '@/utils/Pagination'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
+import { useAppSelector } from '@/hooks/useAppSelector'
 
 type OrderCardProps = {
-  id: string;
-  sericalNumber: string;
-  completionDate: string;
-  status: string;
-  price: Number;
-  products: OrderProduct[];
-  orders: Order[];
-};
+  id: string
+  sericalNumber: string
+  completionDate: string
+  status: string
+  price: Number
+  products: OrderProduct[]
+  orders: Order[]
+}
 
 const OrderCard = ({
   id,
@@ -30,13 +35,11 @@ const OrderCard = ({
   products,
   orders,
 }: OrderCardProps) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleDetails = (id: string) => {
-    navigate(`/customer/orderdetails/${id}`, { state: { orders: orders } });
-  };
-
-  console.log("products", products);
+    navigate(`/customer/orderdetails/${id}`, { state: { orders: orders } })
+  }
 
   return (
     <>
@@ -68,9 +71,9 @@ const OrderCard = ({
             >
               <Image
                 src={
-                  typeof prod.product === "string"
-                    ? ""
-                    : prod.product.imageCover || ""
+                  typeof prod.product === 'string'
+                    ? ''
+                    : prod.product.imageCover || ''
                 }
                 alt="imageCover"
                 className="max-w-full max-h-full"
@@ -80,16 +83,76 @@ const OrderCard = ({
         ))}
       </div>
     </>
-  );
-};
+  )
+}
 
 const Orders = () => {
-  const dispatch = useAppDispatch();
-  const { orders } = useAppSelector((state) => state.orders);
+  const dispatch = useAppDispatch()
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filterOption, setFilterOption] = useState('all')
+  const { orders } = useAppSelector((state) => state.orders)
+  const [filteredOptionData, setFilteredOptionData] = useState<Order[]>([])
+  const [orderData, setOrderData] = useState<Order[]>([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const ordersPerPage = 5
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  const indexOfLastOrder = currentPage * ordersPerPage
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage
+  const currentOrders = orderData.slice(indexOfFirstOrder, indexOfLastOrder)
 
   useEffect(() => {
-    dispatch(getOrderWithUserID());
-  }, [dispatch]);
+    dispatch(getOrderWithUserID())
+  }, [])
+
+  useEffect(() => {
+    if (filterOption === 'all') {
+      setFilteredOptionData(orders)
+    } else if (filterOption === 'pending') {
+      setFilteredOptionData(
+        orders.filter((order) => order.status === 'pending')
+      )
+    } else if (filterOption === 'processed') {
+      setFilteredOptionData(
+        orders.filter((order) => order.status === 'processed')
+      )
+    } else if (filterOption === 'completed') {
+      setFilteredOptionData(
+        orders.filter((order) => order.status === 'completed')
+      )
+    } else if (filterOption === 'rejected') {
+      setFilteredOptionData(
+        orders.filter((order) => order.status === 'rejected')
+      )
+    }
+  }, [filterOption, orders])
+
+  useEffect(() => {
+    if (searchQuery !== '') {
+      let data = filteredOptionData.map((order) => ({
+        ...order,
+        products: order.products.filter((orderProduct: OrderProduct) => {
+          if (typeof orderProduct.product === 'string') {
+            return orderProduct.product
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
+          } else {
+            return orderProduct.product.title
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
+          }
+        }),
+      }))
+
+      data = data.filter((order) => order.products.length > 0)
+      setOrderData(data)
+    } else {
+      setOrderData(filteredOptionData)
+    }
+  }, [searchQuery, filteredOptionData])
 
   return (
     <div className="orders-list">
@@ -100,39 +163,46 @@ const Orders = () => {
             <FormSelect
               className="addresses-select"
               aria-label="Default select example"
+              onChange={(e) => setFilterOption(e.target.value)}
+              value={filterOption}
             >
-              <option className="selectCustom-option sort-options bg-white text-sm font-medium flex justify-center text-gray-600 light-dropdown-hover">
-                Te gjitha
+              <option
+                value={'all'}
+                className="selectCustom-option sort-options bg-white text-sm font-medium flex justify-center text-gray-600 light-dropdown-hover"
+              >
+                All
               </option>
               <option
                 className="selectCustom-option sort-options bg-white text-sm font-medium flex justify-center text-gray-600 light-dropdown-hover"
-                value="1"
+                value={'pending'}
               >
-                Ne pritje
+                Pending
               </option>
               <option
                 className="selectCustom-option sort-options bg-white text-sm font-medium flex justify-center text-gray-600 light-dropdown-hover"
-                value="2"
+                value={'processed'}
               >
-                Duke u procesuar
+                Processed
               </option>
               <option
                 className="selectCustom-option sort-options bg-white text-sm font-medium flex justify-center text-gray-600 light-dropdown-hover"
-                value="3"
+                value={'completed'}
               >
-                Kompletuar
+                Completed
               </option>
               <option
                 className="selectCustom-option sort-options bg-white text-sm font-medium flex justify-center text-gray-600 light-dropdown-hover"
-                value="3"
+                value={'rejected'}
               >
-                Anuluar
+                Rejected
               </option>
             </FormSelect>
             <InputGroup>
               <Form.Control
                 aria-label="Default"
                 aria-describedby="inputGroup-sizing-default"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <InputGroup.Text id="inputGroup-sizing-small">
                 <FontAwesomeIcon icon={faSearch} />
@@ -141,22 +211,48 @@ const Orders = () => {
           </div>
         </div>
       </WrappingCard>
-      {orders.map((order: Order) => (
-        <WrappingCard marginBtm={"20px"} padding="12px">
-          <OrderCard
-            id={order._id}
-            sericalNumber={order.orderCode}
-            completionDate={order.arrivalDate}
-            status={order.status}
-            price={order.totalOrderPrice}
-            products={order.products}
-            orders={orders}
-          />
+      {currentOrders.length ? (
+        currentOrders.map((order) => (
+          <WrappingCard marginBtm={'20px'} padding="12px">
+            <OrderCard
+              id={order._id}
+              sericalNumber={order.orderCode}
+              completionDate={order.arrivalDate}
+              status={order.status}
+              price={order.totalOrderPrice}
+              products={order.products}
+              orders={orders}
+            />
+          </WrappingCard>
+        ))
+      ) : (
+        <div className="no-data w-100 bg-white rounded shadow-md d-flex flex-col align-items-center px-4 py-5">
+          <div className="w-32 h-32 rounded-full bg-gray-100 d-flex align-items-center justify-content-center mb-4">
+            <i className="icon-megaphone text-6xl text-gray-600">
+              <FontAwesomeIcon icon={faReorder} />
+            </i>
+          </div>
+          <p className="font-medium text-base tablet:text-lg text-center break-words">
+            Ju ende nuk keni bërë ndonjë porosi
+          </p>
+          <p className="text-sm tablet:text-base text-center break-words">
+            Kontrolloni përsëri pas blerjes së ardhshme.
+          </p>
+        </div>
+      )}
+      {currentOrders.length ? (
+        <WrappingCard padding="12px">
+          <div className="w-100 d-flex justify-content-end">
+            <PaginationComponent
+              totalItems={orderData.length}
+              itemsPerPage={5}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </WrappingCard>
-      ))}
-      <WrappingCard padding="12px">Pagination</WrappingCard>
+      ) : null}
     </div>
-  );
-};
+  )
+}
 
-export default Orders;
+export default Orders

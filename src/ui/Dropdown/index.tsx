@@ -24,7 +24,7 @@ import { CartItemProduct } from '@/utils/types'
 import {
   useDeleteCartProductMutation,
   useGetCartProductsQuery,
-} from '@/Cart/store/cartAPI'
+} from '@/store/cart/cartAPI'
 import { useNavigate } from 'react-router-dom'
 import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice'
 import { Image } from '@/utils/helpers'

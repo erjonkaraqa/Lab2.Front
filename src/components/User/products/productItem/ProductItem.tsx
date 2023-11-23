@@ -17,7 +17,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './ProductItem.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { useCreateProductMutation } from '../../../../wishlist/store/wishlistAPI'
+import { useCreateProductMutation } from '../../../../store/wishlist/wishlistAPI'
 import { useNavigate } from 'react-router-dom'
 import { ProductItemTypes, addToCartType } from '@/utils/types'
 import ImageTwentyFour from '@/assets/images/tfTransport.png'
@@ -25,7 +25,7 @@ import NewItem from '@/assets/images/newproduct-1.png'
 import {
   useAddToCartQueryMutation,
   useGetCartProductsQuery,
-} from '@/Cart/store/cartAPI'
+} from '@/store/cart/cartAPI'
 import { ToastContainer, toast } from 'react-toastify'
 import { Dropdown, DropdownButton } from 'react-bootstrap'
 import useSocket from '@/hooks/useSocket'
@@ -153,25 +153,26 @@ const ProductItem: React.FC<ProductItemTypes> = ({
               >
                 {title}
               </a>
+              {hasAccess ? (
+                <Dropdown>
+                  <Dropdown.Toggle
+                    className="custom-button"
+                    variant="success"
+                    id="dropdown-basic"
+                  >
+                    ...
+                  </Dropdown.Toggle>
 
-              <Dropdown>
-                <Dropdown.Toggle
-                  className="custom-button"
-                  variant="success"
-                  id="dropdown-basic"
-                >
-                  ...
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item href={`/admin/update-product/${id}`}>
-                    Edit product
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">
-                    Remove product
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+                  <Dropdown.Menu>
+                    <Dropdown.Item href={`/admin/update-product/${id}`}>
+                      Edit product
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">
+                      Remove product
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : null}
             </h2>
             <div className="prices d-flex flex-col h-12 position-relative">
               {discount !== 0 ? (

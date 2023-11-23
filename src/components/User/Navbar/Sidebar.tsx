@@ -55,7 +55,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
               Shporta
             </a>
             <a
-              href="/wishlist"
+              href="/customer/wishlist"
               className="w-100 font-semibold text-base py-3 d-flex align-items-center text-gray-700"
             >
               <i className="icon-heart text-xl text-primary mr-2">
@@ -75,7 +75,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
             </div>
             <a
               className="category-item-content text-xs py-3 hover:underline font-medium d-flex align-items-center justify-content-center px-2  text-gray-700"
-              href="/kompjuter-laptop-server"
+              href="/computer-laptop-server"
             >
               Kompjuter, Laptop &amp; Server
             </a>
@@ -91,7 +91,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
             </div>
             <a
               className="category-item-content text-xs py-3 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-xs text-gray-700"
-              href="/kompjuter-laptop-server"
+              href="/telephone-tablet-ebook-navigation"
             >
               Telephones, Tablet & Navigim
             </a>
@@ -107,7 +107,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
             </div>
             <a
               className="category-item-content text-xs py-3 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-xs text-gray-700"
-              href="/kompjuter-laptop-server"
+              href="/tv-audio-foto-video"
             >
               TV, Audio & Photo
             </a>
@@ -123,7 +123,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
             </div>
             <a
               className="category-item-content text-xs py-3 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-xs text-gray-700"
-              href="/kompjuter-laptop-server"
+              href="/gaming"
             >
               Gaming
             </a>
@@ -139,7 +139,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
             </div>
             <a
               className="category-item-content text-xs py-3 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-xs text-gray-700"
-              href="/kompjuter-laptop-server"
+              href="/smart"
             >
               Smart
             </a>
@@ -155,7 +155,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
             </div>
             <a
               className="category-item-content text-xs py-3 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-xs text-gray-700"
-              href="/kompjuter-laptop-server"
+              href="/accessories"
             >
               Accessories
             </a>
@@ -171,7 +171,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
             </div>
             <a
               className="category-item-content text-xs py-3 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-xs text-gray-700"
-              href="/kompjuter-laptop-server"
+              href="/graphic-procesor-motherboard-ram-memory"
             >
               Computer parts
             </a>
@@ -187,7 +187,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
             </div>
             <a
               className="category-item-content text-xs py-3 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-xs text-gray-700"
-              href="/kompjuter-laptop-server"
+              href="/"
             >
               Outlet
             </a>
@@ -203,7 +203,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
             </div>
             <a
               className="category-item-content text-xs py-3 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-xs text-gray-700"
-              href="/kompjuter-laptop-server"
+              href="/apple"
             >
               What's new
             </a>
@@ -219,7 +219,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
             </div>
             <a
               className="category-item-content text-xs py-3 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-xs text-gray-700"
-              href="/kompjuter-laptop-server"
+              href="/apple"
             >
               Apple
             </a>
@@ -233,7 +233,7 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
               Email: contact@gjirafa50.com
             </span>
             <span className="text-gray-600 text-xs py-3">
-              Tel: +383 45 101 953, +383 38 616 161
+              Tel: +383 45 224 091, +383 45 224 091
             </span>
           </div>
         </div>
@@ -243,17 +243,9 @@ const SidebarNavigation: React.FC<SidebarProps> = ({
       styles={{
         sidebar: {
           background: 'white',
-          //   position: 'absolute',
         },
       }}
     >
-      {/* <button
-        className="md:hidden"
-        style={{ position: 'absolute', top: '15px', left: '15px' }}
-        onClick={() => onSetSidebarOpen(true)}
-      >
-        <FontAwesomeIcon icon={faReorder} />
-      </button> */}
       <div
         style={{ position: 'absolute', top: '9px', left: '5px' }}
         className=" nav-i-animation md:hidden"

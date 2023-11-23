@@ -1,11 +1,31 @@
 $tw-shadow: 0px 4px 20px rgba(44, 44, 44, 0.1);
 $tw-shadow-colored: 0px 4px 20px var(--tw-shadow-color);
+// img:after {
+//   content: ' ';
+//   display: block;
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+//   height: 100%;
+//   width: 100%;
+//   background-color: #fff;
+//   background-image: url(../../images/noimage.png);
+//   background-position: center;
+//   background-size: cover;
+// }
 #root {
   background-color: #f7f7f7;
 }
 a img {
   border: none;
   opacity: 1;
+}
+.w-8 {
+  width: 2rem;
+}
+
+.h-8 {
+  height: 2rem;
 }
 .w-14 {
   width: 3.5rem;
@@ -354,6 +374,9 @@ p {
 .border-b {
   border-bottom: 1px solid #ccc;
 }
+.border-r {
+  border-right: 1px solid #ccc;
+}
 .border-gray-300 {
   border-color: rgb(226 226 226);
 }
@@ -525,12 +548,12 @@ input[type='number'] {
 
 @media (min-width: 811px) {
   .md\:hidden {
-    display: none;
+    display: none !important;
   }
 }
 @media (min-width: 811px) {
   .md\:justify-start {
-    justify-content: flex-start;
+    justify-content: flex-start !important;
   }
 }
 
@@ -643,15 +666,22 @@ input[type='number'] {
   }
 }
 @media (min-width: 811px) {
-  .md\:col-span-4 {
-    grid-column: span 4 / span 4;
+  .md\:col-span-2 {
+    grid-column: span 2 / span 2 !important;
   }
 }
 @media (min-width: 811px) {
-  .md\:col-span-2 {
-    grid-column: span 2 / span 2;
+  .md\:col-span-4 {
+    grid-column: span 4 / span 4 !important;
   }
 }
+@media (min-width: 811px) {
+  .md\:px-4 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
 .col-span-6 {
   grid-column: span 6 / span 6;
 }
@@ -688,11 +718,11 @@ input[type='number'] {
 .grid {
   display: grid;
 }
-.grid-cols-10 {
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-}
 .flex-grow {
   flex-grow: 1;
+}
+.top-3 {
+  top: 0.75rem;
 }
 
 .underline {
@@ -706,7 +736,8 @@ input[type='number'] {
 .rounded-bl {
   border-bottom-left-radius: 0.25rem;
 }
-.pending {
+.pending,
+.proccessing {
   --tw-text-opacity: 1;
   color: rgb(235 158 3 / var(--tw-text-opacity));
 }
@@ -861,13 +892,14 @@ input[type='number'] {
     margin-right: auto;
   }
 }
-.grid-cols-10 {
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-}
+
 @media (min-width: 811px) {
   .md\:gap-4 {
     gap: 1rem !important;
   }
+}
+.grid-cols-10 {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
 }
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -1,12 +1,13 @@
-import React from "react";
-import Logo from "../../../assets/images/gjirafa50.png";
-import "./style.css";
-import LoadingBar from "@/ui/Loading/LoadingBar";
+import React from 'react'
+import Logo from '../../../assets/images/gjirafa50.png'
+import './style.css'
+import LoadingBar from '@/ui/Loading/LoadingBar'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function Footer() {
-  const currentURL = window.location.href;
-  const dashboardURL = "http://localhost:3000/";
-  const isDashboard = currentURL === dashboardURL;
+  const currentURL = window.location.href
+  const dashboardURL = 'http://localhost:3000/'
+  const isDashboard = currentURL === dashboardURL
 
   return (
     <div className="footer text-gray-600">
@@ -17,7 +18,7 @@ function Footer() {
               <a
                 href="https://gjirafa50.com/apple"
                 className="d-flex mx-auto "
-                style={{ width: "10rem", height: "3rem" }}
+                style={{ width: '10rem', height: '3rem' }}
               >
                 <img
                   alt="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/d242fc19-6303-4e38-8d92-cdd1ac6c9074/d242fc19-6303-4e38-8d92-cdd1ac6c9074"
@@ -82,7 +83,7 @@ function Footer() {
       )}
 
       <div className="footer-upper text-left mx-auto px-3 md:px-0 py-4">
-        <img src={Logo} alt="gjirafa50" style={{ width: "150px" }} />
+        <img src={Logo} alt="gjirafa50" style={{ width: '150px' }} />
       </div>
       <div className="footer-upper mx-auto d-flex flex-col-reverse md:flex-row-reverse footer-lists p-2 md:p-0 md:mb-4">
         <div className="footer-block information mb-3">
@@ -92,18 +93,20 @@ function Footer() {
             </h5>
             <ul className="d-flex flex-col gap-2">
               <li className="text-sm hover:underline">
-                <a href="mailto:contact@gjirafa50.com">contact@gjirafa50.com</a>
+                <a href="mailto:contact@gjirafa50.com">webmaverics@info.com</a>
               </li>
               <li className="text-sm hover:underline">
-                <a href="tel:+383 38 616 161">+383 38 616 161</a>
+                <a href="tel:+383 45 224 091">+383 45 224 091</a>
               </li>
               <li className="text-sm ">apo Viber / WhatsApp</li>
               <li className="text-sm hover:underline">
-                <a href="tel:+383 45 101 953">+383 45 101 953</a>
+                <a href="tel:+383 45 224 091">+383 45 224 091</a>
               </li>
               <li className="text-sm">Për kërkesa të ofertave:</li>
               <li className="text-sm hover:underline">
-                <a href="mailto:b2b@gjirafa50.com">b2b@gjirafa50.com</a>
+                <a href="mailto:bledonibishi1@gmail.com">
+                  bledonibishi1@gmail.com
+                </a>
               </li>
               <li className="text-sm ">
                 Magjistralja Prishtinë-Ferizaj, kilometri i 6-të (Lapnasellë),
@@ -139,7 +142,11 @@ function Footer() {
                 </a>
               </li>
               <li className="text-sm hover:underline">
-                <a className="topic-link" id="#products-faq" href="">
+                <a
+                  className="topic-link"
+                  id="#products-faq"
+                  href="/customer/orders"
+                >
                   Porositë
                 </a>
               </li>
@@ -317,7 +324,7 @@ function Footer() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

@@ -1,11 +1,5 @@
-import { Menu, MenuItem } from '@szhsin/react-menu'
-import '@szhsin/react-menu/dist/index.css' // Make sure to import the library's CSS
-import React, {
-  DetailedHTMLProps,
-  ImgHTMLAttributes,
-  ReactNode,
-  useState,
-} from 'react'
+import React, { ReactNode } from 'react'
+import '@szhsin/react-menu/dist/index.css'
 
 type Category = {
   [category: string]: {
@@ -30,7 +24,7 @@ const BannerDropdown = ({
   link,
 }: DropdownProps) => {
   return (
-    <ul className="sublist first-level gap-y-2.5 text-start">
+    <ul className="sublist first-level gap-y-2.5 text-start p-2">
       <div
         style={{
           display: 'grid',

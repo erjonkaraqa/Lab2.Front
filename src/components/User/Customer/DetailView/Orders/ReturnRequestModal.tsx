@@ -1,14 +1,21 @@
-import { ReturnRequestInput, ReturnRequestProductDetail } from "@/utils/types";
-import { useCreateOneMutation } from "@/store/returnRequests/returnRequestAPI";
-import React, { FC, useState } from "react";
-import { Form, FormLabel, InputGroup, Modal } from "react-bootstrap";
+import { ReturnRequestInput, ReturnRequestProductDetail } from '@/utils/types'
+import { useCreateOneMutation } from '@/store/returnRequests/returnRequestAPI'
+import React, { FC, useState } from 'react'
+import {
+  Button,
+  Form,
+  FormGroup,
+  FormLabel,
+  InputGroup,
+  Modal,
+} from 'react-bootstrap'
 
 type ReturnRequestTypes = {
-  show: boolean;
-  onHide: () => void;
-  order: string;
-  productsDetails: ReturnRequestProductDetail[];
-};
+  show: boolean
+  onHide: () => void
+  order: string
+  productsDetails: ReturnRequestProductDetail[]
+}
 
 const ReturnRequestModal: FC<ReturnRequestTypes> = ({
   show,
@@ -16,39 +23,37 @@ const ReturnRequestModal: FC<ReturnRequestTypes> = ({
   order,
   productsDetails,
 }) => {
-  const [createOne] = useCreateOneMutation();
+  const [createOne] = useCreateOneMutation()
   const [formData, setFormData] = useState<ReturnRequestInput>({
     order,
-    reason: "",
+    reason: '',
     productsDetails,
-    returningAction: "",
-  });
+    returningAction: '',
+  })
 
   const handleChange = (e: any) => {
     if (e.target) {
-      const { name, value } = e.target;
-      setFormData({ ...formData, [name]: value });
+      const { name, value } = e.target
+      setFormData({ ...formData, [name]: value })
     }
-  };
-
-  console.log("formData", formData);
+  }
 
   const makeAReturnRequestHandler = async (e: any) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const result = await createOne({ ...formData });
+      const result = await createOne({ ...formData })
     } catch (error) {
-      throw error;
-      console.log("error", error);
+      throw error
+      console.log('error', error)
     }
     setFormData({
       order,
-      reason: "",
+      reason: '',
       productsDetails,
-      returningAction: "",
-    });
-  };
+      returningAction: '',
+    })
+  }
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -73,11 +78,11 @@ const ReturnRequestModal: FC<ReturnRequestTypes> = ({
             Action: *
           </FormLabel>
           <select name="returningAction" onChange={(e) => handleChange(e)}>
-            <option value={"refund"} selected>
+            <option value={'refund'} selected>
               Refund
             </option>
-            <option value={"credit"}>Credit</option>
-            <option value={"exchange"}>Exchange</option>
+            <option value={'credit'}>Credit</option>
+            <option value={'exchange'}>Exchange</option>
           </select>
         </Form>
       </Modal.Body>
@@ -85,15 +90,15 @@ const ReturnRequestModal: FC<ReturnRequestTypes> = ({
         <button
           className="btn btn-primary btn-primary-hover w-100"
           onClick={(e) => {
-            makeAReturnRequestHandler(e);
-            onHide();
+            makeAReturnRequestHandler(e)
+            onHide()
           }}
         >
           Save Changes
         </button>
       </Modal.Footer>
     </Modal>
-  );
-};
+  )
+}
 
-export default ReturnRequestModal;
+export default ReturnRequestModal

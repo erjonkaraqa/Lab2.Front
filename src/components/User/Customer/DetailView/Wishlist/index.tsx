@@ -1,28 +1,26 @@
+import React from 'react'
 import WrappingCard from '@/ui/WrappingCard'
 import {
-  faChain,
   faHeartBroken,
   faShoppingCart,
   faTrash,
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
 import './style.css'
 import {
   useGetWishlistProductsQuery,
+  useRemoveAllMutation,
   useRemoveProductMutation,
-} from '@/wishlist/store/wishlistAPI'
+} from '@/store/wishlist/wishlistAPI'
 import LoadingBar from '@/ui/Loading/LoadingBar'
 import { toast } from 'react-toastify'
 import { Image } from '@/utils/helpers'
 
 const Wishlist = () => {
-
-  const [removeProduct, { error }] = useRemoveProductMutation()
+  const [removeProduct] = useRemoveProductMutation()
   const { data, isLoading, refetch } = useGetWishlistProductsQuery()
-
-
+  const [removeAll, { isLoading: removeAllLoading }] = useRemoveAllMutation()
 
   const deleteProductHandler = async (productID: string) => {
     try {
@@ -34,53 +32,40 @@ const Wishlist = () => {
     }
   }
 
+  const deleteAllHandler = async (event: any) => {
+    event?.preventDefault()
+
+    try {
+      await removeAll()
+      refetch()
+      toast.success('All products deleted from wishlist successfully!')
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  if (removeAllLoading) {
+    return <LoadingBar height="50px" size={'50px'} />
+  }
+
   return (
     <>
       <WrappingCard marginBtm="20px" padding="12px">
         <div className="d-flex justify-content-between w-100 align-items-center  account-details-container tablet:mb-6">
-
           <span className="page-title pointer-events-none w-100 text-left account-details-page-title ">
-            Wishlist{' '}
+            Wishlist
           </span>
-          <div
-            className="d-flex s  align-items-center cursor-pointer position-relative text-xs whitespace-nowrap mr-2 group hover:cursor-pointer hover:text-primary"
-
-          >
-            <span className=" tablet:block group-hover:text-primary">
-              SHARE
-            </span>
-            <input
-              size={1}
-              id="wishlistUrl"
-              style={{ fontSize: '14px' }}
-              className="hidden"
-              value="http://gjirafa50.com/wishlist/42e684cf-7488-4874-8722-6e08b382fee2"
-            />
-            <i className="icon-link-url text-sm cursor-pointer ml-2 group-hover:text-primary">
-              <FontAwesomeIcon className="" icon={faChain} />
-            </i>
-            <span
-              id="copyToClipBoard"
-              className="position-absolute z-0 right-6 top-0 p-2 bg-white rounded opacity-0 shadow-sm text-xs"
-            >
-              Linku është kopjuar
-            </span>
-          </div>
           <button
+            onClick={deleteAllHandler}
             type="button"
             style={{ border: 'none' }}
             className="text-xs d-flex w-25 text-end align-items-center md:whitespace-nowrap focus:outline-none hover:text-primary"
           >
-            <span className="hidden tablet:block w-100">
-              FSHIJ LISTËN E DËSHIRAVE
-            </span>
-            <i
-              className="icon-delete-trash text-sm pl-2 hover:text-primary"
-            >
+            <span className="hidden tablet:block w-100">REMOVE WISHLIST</span>
+            <i className="icon-delete-trash text-sm pl-2 hover:text-primary">
               <FontAwesomeIcon icon={faTrash} />
             </i>
           </button>
-
         </div>
       </WrappingCard>
       <WrappingCard padding="12px">
@@ -116,9 +101,8 @@ const Wishlist = () => {
                         <a
                           className="relative block"
                           href={`/product/${item.id}`}
-                          title="Apple iPhone 15, 128GB, Black"
+                          title={item.title}
                         >
-
                           <Image
                             src={item.imageCover ? item.imageCover : ''}
                             alt="image cover"
@@ -129,7 +113,8 @@ const Wishlist = () => {
                           <div className="position-absolute uppercase top-0 left-0 sold-out-productBox d-flex align-items-center justify-content-center text-center">
                             <a
                               className="w-100 h-100 text-center d-flex align-items-center justify-content-center"
-                              href={`product/${item.id}`}
+                              title={item.title}
+                              href={`/product/${item.id}`}
                             >
                               <span className="text-sm rounded px-2 py-1 bg-gray-100">
                                 E shitur
@@ -142,8 +127,8 @@ const Wishlist = () => {
                         <span className="product-title">
                           <a
                             className="text-sm md:text-base product-title-lines hover:underline"
-                            title="Apple iPhone 15, 128GB, Black"
-                            href="/apple-iphone-15-128gb-black"
+                            title={item.title}
+                            href={`/product/${item.id}`}
                           >
                             {item.title}
                           </a>
@@ -173,7 +158,6 @@ const Wishlist = () => {
                             <button
                               aria-label="Shto në shportë"
                               className="h-10 product-box-add-to-cart-button d-flex align-items-center btn-primary-hover justify-content-center md:flex-grow hover:bg-primary hover:text-white w-50 focus:outline-none focus:border-none btn-simple btn-secondary focus:text-white"
-
                             >
                               <span className="icon-cart-shopping-add icon-line-height text-xl md:hidden"></span>
                               <span className="hidden md:grid text-xs font-medium">
@@ -182,13 +166,10 @@ const Wishlist = () => {
                             </button>
                           )}
                           <button
-
                             style={{ border: 'none' }}
                             className="h-10 d-flex align-items-center justify-content-center hover:bg-primary  md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
                             onClick={() => deleteProductHandler(item.id)}
-
                           >
-
                             <i className="icon-delete-trash text-xl">
                               <FontAwesomeIcon icon={faTrashCan} />
                             </i>
@@ -223,7 +204,6 @@ const Wishlist = () => {
           </form>
         </div>
       </WrappingCard>
-
     </>
   )
 }

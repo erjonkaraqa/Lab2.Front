@@ -32,22 +32,6 @@ const OrderDropdown: FC<OrderDropdownPropTypes> = ({
           <span className="number">{number}</span>
           <h6 className="title ml-4 mb-0">{title}</h6>
         </div>
-        <p className="back-link">
-          {isChangable && (
-            <a
-              href={urlLink}
-              className={`text-primary font-medium m-2 p-2 editbutton ${
-                isChangable ? '' : 'hidden'
-              }`}
-              //   onClick={(e) => {
-              //     e.preventDefault()
-              //     onChange(urlLink)
-              //   }}
-            >
-              Change
-            </a>
-          )}
-        </p>
       </div>
       {isActive && (
         <div id="checkout-step-billing" className="step a-item p-4">

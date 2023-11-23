@@ -17,6 +17,7 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Row from 'react-bootstrap/Row'
+import { toast } from 'react-toastify'
 
 const CreateProduct = () => {
   const { data: products } = useGetProductsQuery()
@@ -144,6 +145,7 @@ const CreateProduct = () => {
 
     try {
       axiosInstance.post(BASE_URL + `api/v1/products/createProduct`, formDataa)
+      toast.success('Product created successfuly')
     } catch (error) {
       console.log('error', error)
     }

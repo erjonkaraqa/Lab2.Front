@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faArrowDown,
-  faChevronCircleDown,
   faChevronDown,
   faChevronUp,
   faHeart,
@@ -11,16 +9,26 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { useLocation } from 'react-router-dom'
 import { useGetProductsQuery } from '@/store/products/RTKProductSlice'
-import { Product } from '@/utils/types'
+import { Product, addToCartType } from '@/utils/types'
 import LoadingBar from '@/ui/Loading/LoadingBar'
-import { Dropdown, DropdownButton } from 'react-bootstrap'
 import CustomDropdown from './customDropdown'
 import { Image } from '@/utils/helpers'
 import ImageTwentyFour from '@/assets/images/tfTransport.png'
 import NewItem from '@/assets/images/newproduct-1.png'
+import { toast } from 'react-toastify'
+import {
+  useAddToCartQueryMutation,
+  useGetCartProductsQuery,
+} from '@/store/cart/cartAPI'
+import useSocket from '@/hooks/useSocket'
+import { useCreateProductMutation } from '@/store/wishlist/wishlistAPI'
 
 const SearchComponent = () => {
   const location = useLocation()
+  const socket = useSocket()
+  const [createProduct] = useCreateProductMutation()
+  const [addToCartQuery] = useAddToCartQueryMutation()
+  const { refetch } = useGetCartProductsQuery()
   const searchQuery = new URLSearchParams(location.search).get('q') || ''
   const [filterByPrice, setFilterByPrice] = useState(true)
   const [filterByManufacturer, setFilterByManufacturer] = useState(true)
@@ -30,6 +38,8 @@ const SearchComponent = () => {
   const [showDiscountedProducts, setShowDiscountedProducts] =
     useState<boolean>(false)
   const [minPrice, setMinPrice] = useState<number>(0)
+  const [inStock, setInStock] = useState(false)
+  const [tfTransport, setTfTransport] = useState(false)
   const [maxPrice, setMaxPrice] = useState<number>(7999)
   const [filteredData, setFilteredData] = useState<Product[] | undefined>([])
   const [selectedManufacturers, setSelectedManufacturers] = useState<string[]>(
@@ -47,6 +57,8 @@ const SearchComponent = () => {
   }
 
   const filterProducts = (product: Product) => {
+    const inStockCondition = inStock ? product.stock : true
+    const tfTransportCondition = tfTransport ? product.tfTransport : true
     const productTags: string[] = product.tags.map((tag: string) =>
       tag.toLowerCase()
     )
@@ -71,7 +83,9 @@ const SearchComponent = () => {
       isNewCondition &&
       hasDiscountCondition &&
       isInRange &&
-      manufacturerSelected
+      manufacturerSelected &&
+      inStockCondition &&
+      tfTransportCondition
     )
   }
 
@@ -108,6 +122,8 @@ const SearchComponent = () => {
     maxPrice,
     sortOption,
     selectedManufacturers,
+    inStock,
+    tfTransport,
   ])
 
   const handleApplyPriceFilter = () => {
@@ -128,8 +144,37 @@ const SearchComponent = () => {
     }
   }
 
+  const addToCartHandler = (items: addToCartType) => {
+    addToCartQuery(items)
+      .then(() => {
+        toast.success('Product added to cart!')
+        refetch()
+      })
+      .catch((err) => console.log('err', err))
+  }
+
+  const createWishlistProductHandler = (productId: string) => {
+    createProduct(productId)
+      .then(() => {
+        socket?.emit('createWishlistProduct', { productId })
+        toast.success('Product added to wishlist!')
+      })
+      .catch((err) => {
+        console.log('err', error)
+      })
+  }
+
   if (isLoading) {
-    return <LoadingBar height="50px" size={50} />
+    return (
+      <div
+        className="master-wrapper-content px-2 md:px-0 mx-auto d-flex align-items-center justify-content-center"
+        style={{ minHeight: '60vh' }}
+      >
+        <div className="master-column-wrapper my-6">
+          <LoadingBar height="50px" size={50} />
+        </div>
+      </div>
+    )
   }
 
   if (error) {
@@ -166,22 +211,27 @@ const SearchComponent = () => {
   ]
 
   return (
-    <div
-      className="master-wrapper-content px-2 md:px-0 mx-auto"
-    >
+    <div className="master-wrapper-content px-2 md:px-0 mx-auto">
       <div className="master-column-wrapper my-6">
         <div className="page-title-top mb-3 md:mb-6 page-title pointer-events-none w-100 text-center md:text-left text-primary text-lg font-medium">
-          Kërko
+          Search
         </div>
         <div className="side-2 md:sticky md:top-20 mb-4 md:mb-0">
           <div
             id="product-filters-mobile"
             className="bg-white shadow-md md:rounded md:overflow-hidden  z-20 top-0 bg-white md:flex md:flex-col h-100 md:h-min w-5/6 md:w-full right-0"
           >
+            <div className="d-flex align-items-center justify-content-between bg-gray-100 p-4 md:hidden">
+              <span className="text-sm">Products filters</span>
+              <div id="close-product-filters">
+                <i className="icon-close-cancel text-2xl text-gray-700"></i>
+              </div>
+            </div>
+
             <div className="active-filters-wrapper hidden">
               <div className="w-100 bg-white d-flex align-items-center px-4 py-2">
                 <i className="icon-filter-drag text-gray-700 text-xl"></i>
-                <span className="text-sm text-gray-700">Filterët aktiv</span>
+                <span className="text-sm text-gray-700">Active filters</span>
               </div>
               <div className="active-filters d-flex px-4 pb-2 border-b flex-wrap"></div>
             </div>
@@ -194,6 +244,7 @@ const SearchComponent = () => {
                     type="checkbox"
                     id="inStockInput"
                     className="toggle-btn"
+                    onClick={() => setInStock((state) => !state)}
                   />
                   <div className="knobs"></div>
                   <div className="layer"></div>
@@ -207,6 +258,7 @@ const SearchComponent = () => {
                     id="hasLocalStockInput"
                     type="checkbox"
                     className="toggle-btn"
+                    onClick={() => setTfTransport((state) => !state)}
                   />
                   <div className="knobs"></div>
                   <div className="layer"></div>
@@ -327,63 +379,6 @@ const SearchComponent = () => {
         <div className="center-2">
           <div className="page search-page">
             <div className="page-body">
-              <div className="search-input hidden">
-                <form method="get" action="/search">
-                  <div className="fieldset">
-                    <div className="form-fields">
-                      <div className="basic-search">
-                        <div className="inputs">
-                          <label htmlFor="q">Kërko fjalët kyçe:</label>
-                          <input
-                            className="search-text"
-                            type="text"
-                            id="q"
-                            name="q"
-                            value="laptop lenovo"
-                          />
-                        </div>
-                        <div className="inputs reversed">
-                          <input
-                            type="checkbox"
-                            data-val="true"
-                            data-val-required="The Kërkim i avancuar field is required."
-                            id="advs"
-                            name="advs"
-                            value="true"
-                          />
-                          <label htmlFor="advs">Kërkim i avancuar</label>
-                        </div>
-                      </div>
-                      <div
-                        className="advanced-search"
-                        id="advanced-search-block"
-                        style={{ display: 'none' }}
-                      >
-                        <div className="inputs reversed">
-                          <input
-                            type="checkbox"
-                            data-val="true"
-                            data-val-required="The Kërko në përshkrim të produktit field is required."
-                            id="sid"
-                            name="sid"
-                            value="true"
-                          />
-                          <label htmlFor="sid">
-                            Kërko në përshkrim të produktit
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="buttons">
-                    <button type="submit" className="button-1 search-button">
-                      Kërko
-                    </button>
-                  </div>
-                  <input name="advs" type="hidden" value="false" />
-                  <input name="sid" type="hidden" value="false" />
-                </form>
-              </div>
               <div className="product-selectors d-flex align-items-center h-10 sticky top-[3.4rem] md:top-0 md:relative z-50 mb-4 bg-gray-100">
                 <div className="d-flex w-100  gap-2 flex-col md:flex-row justify-content-between">
                   <div className=" md:flex align-items-center">
@@ -463,11 +458,12 @@ const SearchComponent = () => {
                                     -{result.discount}%
                                   </div>
                                 )}
+                                {/* </div> */}
                               </div>
                               <div className="picture position-relative px-4 pt-6">
                                 <a
                                   className="position-relative block"
-                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                  href={`product/${result.id}`}
                                   title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
                                 >
                                   <Image
@@ -503,11 +499,20 @@ const SearchComponent = () => {
                                 </h2>
                                 <div className="prices d-flex flex-col h-12 position-relative">
                                   <span className="price font-semibold text-gray-700 text-base md:text-xl">
-                                    {result.priceDiscount?.toFixed(2)} €
+                                    {result.priceDiscount
+                                      ? Math.round(
+                                          result.priceDiscount
+                                        )?.toLocaleString()
+                                      : Math.round(
+                                          result.price
+                                        )?.toLocaleString()}
+                                    .00 €
                                   </span>
-                                  <span className="price old-price text-gray-600 font-medium text-sm line-through">
-                                    {result.price?.toFixed(2)} €
-                                  </span>
+                                  {result.priceDiscount && (
+                                    <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                      {result.price?.toFixed(2)} €
+                                    </span>
+                                  )}
                                 </div>
                                 <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
                                   <span className="text-xs text-gray-600">
@@ -532,8 +537,14 @@ const SearchComponent = () => {
                                 ) : (
                                   <button
                                     aria-label="Shto në shportë"
-                                    id="add-to-cart-(74551)"
                                     className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                                    onClick={() =>
+                                      addToCartHandler({
+                                        productId: result.id,
+                                        quantity: 1,
+                                        price: result.price,
+                                      })
+                                    }
                                   >
                                     <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
                                       <FontAwesomeIcon icon={faShoppingCart} />
@@ -550,6 +561,9 @@ const SearchComponent = () => {
                                   value="Shto në listën e dëshirave"
                                   title="Shto në listën e dëshirave"
                                   style={{ border: 'none' }}
+                                  onClick={() =>
+                                    createWishlistProductHandler(result.id)
+                                  }
                                   className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
                                 >
                                   <i className="icon-heart icon-line-height text-2xl group-hover:text-white">

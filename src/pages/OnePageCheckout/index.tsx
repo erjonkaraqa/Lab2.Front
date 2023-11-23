@@ -8,8 +8,8 @@ import OpcPaymentInfo from './OpcPaymentInfo'
 import {
   useClearCartMutation,
   useGetCartProductsQuery,
-} from '@/Cart/store/cartAPI'
-import { getCartProducts } from '@/Cart/store/cartSlice'
+} from '@/store/cart/cartAPI'
+import { getCartProducts } from '@/store/cart/cartSlice'
 import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice'
 import OpcShipping from './OpcShipping'
 import OrderDropdown from './orderDropdown'

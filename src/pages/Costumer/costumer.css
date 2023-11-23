@@ -4,7 +4,6 @@
   margin-bottom: 0px !important;
   box-sizing: border-box;
   position: relative;
-  top: 20px;
   z-index: 1;
 }
 .costumer-main {
@@ -42,9 +41,3 @@
     position: sticky;
   }
 }
-/* .test {
-  background-color: #f7f7f7 !important;
-  width: 100%;
-  display: grid;
-  gap: 20px 20px;
-} */

@@ -220,7 +220,6 @@ const OpcPaymentInfo: React.FC<OpcPaymentInfoPropTypes> = ({
           style={{ display: 'none' }}
         >
           Duke bërë porosinë
-          <span className="please-wait ml-2"></span>
         </div>
       </div>
     </>

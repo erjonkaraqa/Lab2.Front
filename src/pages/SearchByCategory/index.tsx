@@ -12,17 +12,28 @@ import {
   useGetProductCategoriesQuery,
   useGetProductsQuery,
 } from '@/store/products/RTKProductSlice'
-import { Product, ProductCategory } from '@/utils/types'
+import { Product, ProductCategory, addToCartType } from '@/utils/types'
 import LoadingBar from '@/ui/Loading/LoadingBar'
 import CustomDropdown from '../SearchPage/customDropdown'
 import { Image, getCategoryNameById } from '@/utils/helpers'
 import ImageTwentyFour from '@/assets/images/tfTransport.png'
 import NewItem from '@/assets/images/newproduct-1.png'
 import Breadcrumb from '../Breadcrumb'
+import { toast } from 'react-toastify'
+import useSocket from '@/hooks/useSocket'
+import { useCreateProductMutation } from '@/store/wishlist/wishlistAPI'
+import {
+  useAddToCartQueryMutation,
+  useGetCartProductsQuery,
+} from '@/store/cart/cartAPI'
 
 const SearchByCategory = () => {
   const { categoryGroup, category } = useParams()
   const location = useLocation()
+  const socket = useSocket()
+  const [createProduct] = useCreateProductMutation()
+  const [addToCartQuery] = useAddToCartQueryMutation()
+  const { refetch } = useGetCartProductsQuery()
   const routeCategories = categoryGroup?.split('-')
   const searchQuery = new URLSearchParams(location.search).get('q') || ''
   const { data: categories } = useGetProductCategoriesQuery()
@@ -33,6 +44,8 @@ const SearchByCategory = () => {
   const [showNewProducts, setShowNewProducts] = useState<boolean>(false)
   const [showDiscountedProducts, setShowDiscountedProducts] =
     useState<boolean>(false)
+  const [inStock, setInStock] = useState(false)
+  const [tfTransport, setTfTransport] = useState(false)
   const [minPrice, setMinPrice] = useState<number>(0)
   const [maxPrice, setMaxPrice] = useState<number>(7999)
   const [filteredData, setFilteredData] = useState<Product[] | undefined>([])
@@ -86,6 +99,8 @@ const SearchByCategory = () => {
   }
 
   const filterProducts = (product: Product) => {
+    const inStockCondition = inStock ? product.stock : true
+    const tfTransportCondition = tfTransport ? product.tfTransport : true
     const productCategoryName = getCategoryNameById(
       categories as ProductCategory[],
       product.category
@@ -114,7 +129,9 @@ const SearchByCategory = () => {
       hasDiscountCondition &&
       isInRange &&
       filterProductsByCategory(product, productCategoryName, productTags) &&
-      manufacturerSelected
+      manufacturerSelected &&
+      inStockCondition &&
+      tfTransportCondition
     )
   }
 
@@ -153,6 +170,8 @@ const SearchByCategory = () => {
     categories,
     category,
     selectedManufacturers,
+    inStock,
+    tfTransport,
   ])
 
   const handleApplyPriceFilter = () => {
@@ -171,6 +190,26 @@ const SearchByCategory = () => {
 
       setFilteredData(filteredProducts)
     }
+  }
+
+  const addToCartHandler = (items: addToCartType) => {
+    addToCartQuery(items)
+      .then(() => {
+        toast.success('Product added to cart!')
+        refetch()
+      })
+      .catch((err) => console.log('err', err))
+  }
+
+  const createWishlistProductHandler = (productId: string) => {
+    createProduct(productId)
+      .then(() => {
+        socket?.emit('createWishlistProduct', { productId })
+        toast.success('Product added to wishlist!')
+      })
+      .catch((err) => {
+        console.log('err', error)
+      })
   }
 
   const manufacturers = [
@@ -203,7 +242,16 @@ const SearchByCategory = () => {
   ]
 
   if (isLoading) {
-    return <LoadingBar height="50px" size={50} />
+    return (
+      <div
+        className="master-wrapper-content px-2 md:px-0 mx-auto"
+        style={{ minHeight: '60vh' }}
+      >
+        <div className="master-column-wrapper my-6">
+          <LoadingBar height="50px" size={50} />
+        </div>
+      </div>
+    )
   }
 
   if (error) {
@@ -211,9 +259,7 @@ const SearchByCategory = () => {
   }
 
   return (
-    <div
-      className="master-wrapper-content px-2 md:px-0 mx-auto"
-    >
+    <div className="master-wrapper-content px-2 md:px-0 mx-auto">
       <div className="master-column-wrapper my-6">
         <Breadcrumb />
 
@@ -225,6 +271,12 @@ const SearchByCategory = () => {
             id="product-filters-mobile"
             className="bg-white shadow-md md:rounded md:overflow-hidden  z-20 top-0 bg-white md:flex md:flex-col h-100 md:h-min w-5/6 md:w-full right-0"
           >
+            <div className="d-flex align-items-center justify-content-between bg-gray-100 p-4 md:hidden">
+              <span className="text-sm">Filterat e produkteve</span>
+              <div id="close-product-filters">
+                <i className="icon-close-cancel text-2xl text-gray-700"></i>
+              </div>
+            </div>
 
             <div className="active-filters-wrapper hidden">
               <div className="w-100 bg-white d-flex align-items-center px-4 py-2">
@@ -236,12 +288,13 @@ const SearchByCategory = () => {
 
             <div className="d-flex flex-col border-b p-3">
               <div className="d-flex align-items-center justify-content-between position-relative mb-3">
-                <span className="text-sm">Në stok</span>
+                <span className="text-sm">Available in stock</span>
                 <div className="toggle-btn-wrapper">
                   <input
                     type="checkbox"
                     id="inStockInput"
                     className="toggle-btn"
+                    onClick={() => setInStock((state) => !state)}
                   />
                   <div className="knobs"></div>
                   <div className="layer"></div>
@@ -255,6 +308,7 @@ const SearchByCategory = () => {
                     id="hasLocalStockInput"
                     type="checkbox"
                     className="toggle-btn"
+                    onClick={() => setTfTransport((state) => !state)}
                   />
                   <div className="knobs"></div>
                   <div className="layer"></div>
@@ -549,11 +603,20 @@ const SearchByCategory = () => {
                                 </h2>
                                 <div className="prices d-flex flex-col h-12 position-relative">
                                   <span className="price font-semibold text-gray-700 text-base md:text-xl">
-                                    {result.priceDiscount?.toFixed(2)} €
+                                    {result.priceDiscount
+                                      ? Math.round(
+                                          result.priceDiscount
+                                        )?.toLocaleString()
+                                      : Math.round(
+                                          result.price
+                                        )?.toLocaleString()}
+                                    .00 €
                                   </span>
-                                  <span className="price old-price text-gray-600 font-medium text-sm line-through">
-                                    {result.price?.toFixed(2)} €
-                                  </span>
+                                  {result.priceDiscount && (
+                                    <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                      {result.price?.toFixed(2)} €
+                                    </span>
+                                  )}
                                 </div>
                                 <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
                                   <span className="text-xs text-gray-600">
@@ -578,8 +641,14 @@ const SearchByCategory = () => {
                                 ) : (
                                   <button
                                     aria-label="Shto në shportë"
-                                    id="add-to-cart-(74551)"
                                     className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                                    onClick={() =>
+                                      addToCartHandler({
+                                        productId: result.id,
+                                        quantity: 1,
+                                        price: result.price,
+                                      })
+                                    }
                                   >
                                     <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
                                       <FontAwesomeIcon icon={faShoppingCart} />
@@ -592,11 +661,13 @@ const SearchByCategory = () => {
 
                                 <button
                                   type="button"
-                                  id="add-to-wishlisht-(74551)"
                                   value="Shto në listën e dëshirave"
                                   title="Shto në listën e dëshirave"
                                   style={{ border: 'none' }}
                                   className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                                  onClick={() =>
+                                    createWishlistProductHandler(result.id)
+                                  }
                                 >
                                   <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
                                     <FontAwesomeIcon icon={faHeart} />

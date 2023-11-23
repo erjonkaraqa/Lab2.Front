@@ -15,7 +15,7 @@ import { logout, reset } from '@/store/auth/authSlice'
 import {
   useDeleteCartProductMutation,
   useGetCartProductsQuery,
-} from '@/Cart/store/cartAPI'
+} from '@/store/cart/cartAPI'
 import LoadingBar from '@/ui/Loading/LoadingBar'
 import { useNavigate } from 'react-router-dom'
 import { useGetProductsQuery } from '@/store/products/RTKProductSlice'

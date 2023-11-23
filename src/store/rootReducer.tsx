@@ -4,14 +4,14 @@ import { reducer as formReducer } from 'redux-form'
 
 import { productsAPI } from './products/RTKProductSlice'
 import productSlice from './products/productSlice'
-import cartSlice from '@/Cart/store/cartSlice'
-import { cartsAPI } from '@/Cart/store/cartAPI'
+import cartSlice from '@/store/cart/cartSlice'
+import { cartsAPI } from '@/store/cart/cartAPI'
 import { returnRequestsAPI } from './returnRequests/returnRequestAPI'
 import orderSlice from './orders/orderSlice'
 import authSlice from './auth/authSlice'
 import addressesSlice from './addresses/addressesSlice'
-import wishlistSlice from '@/wishlist/store/wishlistSlice'
-import { wishlistsAPI } from '@/wishlist/store/wishlistAPI'
+import wishlistSlice from '@/store/wishlist/wishlistSlice'
+import { wishlistsAPI } from '@/store/wishlist/wishlistAPI'
 
 const rootReducer = combineReducers({
   products: productSlice,

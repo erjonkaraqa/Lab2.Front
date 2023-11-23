@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { productsAPI } from './products/RTKProductSlice'
 import rootReducer from '@/store/rootReducer'
-import { cartsAPI } from '@/Cart/store/cartAPI'
-import { wishlistsAPI } from '@/wishlist/store/wishlistAPI'
+import { cartsAPI } from '@/store/cart/cartAPI'
 import { returnRequestsAPI } from './returnRequests/returnRequestAPI'
+import { wishlistsAPI } from './wishlist/wishlistAPI'
 
 const store = configureStore({
   reducer: rootReducer,

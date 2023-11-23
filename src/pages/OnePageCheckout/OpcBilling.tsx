@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './style.css'
-import { getCartProducts } from '@/Cart/store/cartSlice'
+import { getCartProducts } from '@/store/cart/cartSlice'
 import {
   createAddress,
   getAllAddresses,

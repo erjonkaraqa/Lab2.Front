@@ -13,13 +13,15 @@ const RelatedProducts: React.FC<RelatedProductsType> = ({ product }) => {
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
 
   useEffect(() => {
-    const getRelatedProducts = async () => {
-      await axiosInstance
-        .get(`api/v1/products/relatedProducts/${product?.id}`)
-        .then((res) => setRelatedProducts(res.data))
-    }
+    if (product) {
+      const getRelatedProducts = async () => {
+        await axiosInstance
+          .get(`api/v1/products/relatedProducts/${product?.id}`)
+          .then((res) => setRelatedProducts(res.data))
+      }
 
-    getRelatedProducts()
+      getRelatedProducts()
+    }
   }, [product?.id])
 
   return (

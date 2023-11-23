@@ -18,6 +18,8 @@ import Customer from '../pages/Costumer/Costumer'
 import Header from '@/components/User/Header/Header'
 import CheckoutCompleted from '@/pages/CheckoutCompleted'
 import OnePageCheckout from '@/pages/OnePageCheckout'
+import SearchComponent from '@/pages/SearchPage'
+import SearchByCategory from '@/pages/SearchByCategory'
 
 const UserRoutes = () => {
   const isUserAuthenticated = useAppSelector((state) => state.auth.user)
@@ -42,6 +44,11 @@ const UserRoutes = () => {
         <Route path="/resetPassword/:token" element={<ResetPassword />} />
         <Route path="/product/:id" element={<ProductItem />} />
         <Route path="/access-denied" element={<AccessDenied />} />
+        <Route path="/search" element={<SearchComponent />} />
+        <Route
+          path="/:categoryGroup?/:category?"
+          element={<SearchByCategory />}
+        />
 
         {isUserAuthenticated ? (
           <>

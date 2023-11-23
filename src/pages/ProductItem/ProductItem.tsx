@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Breadcrumb from '../Breadcrumb'
 import ProductWrapper from './ProductWrapper'
 import AuthorizedSeller from '@/assets/images/appleAuthorized.png'
 import BestPrice from '@/assets/images/cmimimeimire.png'
@@ -8,33 +9,53 @@ import {
   faCheck,
   faCreditCard,
   faHeart,
-  faShoppingCart,
   faMoneyBillTransfer,
+  faShoppingCart,
   faStar,
   faTruck,
 } from '@fortawesome/free-solid-svg-icons'
+import { getProductWithId } from '@/store/products/productSlice'
+import { useLocation, useNavigate } from 'react-router-dom'
+import Img1 from '@/assets/images/productIMG1.png'
 import TebImg from '@/assets/images/teb.png'
 import RbkoImg from '@/assets/images/rbko.png'
 import SwipperSlider from './SwipperSlider'
-import Breadcrumb from '../Breadcrumb'
-import Rating from 'react-rating-stars-component'
 import RatingModal from './RatingModal'
+import Rating from 'react-rating-stars-component'
+import { useGetRatingWithProductIdQuery } from '@/store/products/RTKProductSlice'
+import { addToCartType } from '@/utils/types'
+import {
+  useAddToCartQueryMutation,
+  useGetCartProductsQuery,
+} from '@/store/cart/cartAPI'
+import PaymentCheckout from './paymentCheckout'
+import RelatedProducts from '@/components/User/products/RelatedProducts'
+import { formatISODateRange2dates } from '@/utils/helpers'
 import { useAppDispatch } from '@/hooks/useAppDispatch'
 import { useAppSelector } from '@/hooks/useAppSelector'
-import { useGetRatingWithProductIdQuery } from '@/store/products/RTKProductSlice'
-import { getProductWithId } from '@/store/products/productSlice'
-import { useLocation } from 'react-router-dom'
 
 const FullStar = () => <FontAwesomeIcon icon={faStar} />
 
 const ProductItem = () => {
   const dispatch = useAppDispatch()
-  const id = useLocation()?.pathname.split('/')[2]
+  const navigate = useNavigate()
+  const currentDate = new Date()
+  const id = useLocation().pathname.split('/')[2]
   const [activeProdTitle, setActiveProdTitle] = useState('1')
-  const [quantity, setQuantity] = useState<number>(1)
-  const { product, loading, error } = useAppSelector((state) => state.products)
+  const { product } = useAppSelector((state) => state.products)
   const { data: productRatings } = useGetRatingWithProductIdQuery(id)
+  const [quantity, setQuantity] = useState<number>(1)
+  const { user } = useAppSelector((state) => state.auth)
   const [ratingsModal, setRatingsModal] = useState<boolean>(false)
+  const [paymentModal, setPaymentModal] = useState(false)
+  const [addToCartQuery, { isError, isLoading, isSuccess }] =
+    useAddToCartQueryMutation()
+
+  const {
+    data: cart,
+    refetch,
+    isLoading: cartLoading,
+  } = useGetCartProductsQuery()
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -42,19 +63,41 @@ const ProductItem = () => {
     }
   }
 
-  useEffect(() => {
-    dispatch(getProductWithId(id))
-  }, [dispatch, id])
-
   const increaseQuantity = () => {
     setQuantity(quantity + 1)
   }
+
+  useEffect(() => {
+    dispatch(getProductWithId(id))
+  }, [])
 
   const productDetailsTitles = [
     { id: '1', title: 'Description' },
     { id: '2', title: 'Details' },
     { id: '3', title: 'Ratings' },
   ]
+
+  const addToCartHandler = (
+    items: addToCartType,
+    action: 'buy' | 'addToCart'
+  ) => {
+    addToCartQuery(items)
+      .then(() => {
+        refetch()
+        if (action === 'buy') {
+          navigate('/cart')
+        }
+      })
+      .catch((err) => console.log('err', err))
+  }
+
+  let priceWithoutTVSH
+
+  if (product?.price) {
+    const tvshAmount = product?.price * 0.18
+
+    priceWithoutTVSH = product?.price - tvshAmount
+  }
 
   return (
     <div className="master-wrapper-content px-2 md:px-0 mx-auto">
@@ -65,7 +108,7 @@ const ProductItem = () => {
         <ProductWrapper className="p-4">
           <div className="d-flex flex-col product-info-all md:flex-row">
             <div
-              className="w-100 md:w-50 d-flex align-items-center justify-content-center position-relative md:pr-3"
+              className="w-100 md:w-1/2 d-flex align-items-center justify-content-center position-relative md:pr-3"
               id="product-img-wrapper"
             >
               <div className="position-absolute top-0 left-0 md:left-16 d-flex align-items-center justify-content-center z-10">
@@ -75,6 +118,7 @@ const ProductItem = () => {
               <span className="w-36 position-absolute top-0 right-0 md:right-6 d-flex align-items-center justify-content-center z-10">
                 <img src={BestPrice} alt="" style={{ width: '100px' }} />
               </span>
+
               <SwipperSlider
                 images={product?.images}
                 stock={product?.stock ? product.stock : 0}
@@ -86,7 +130,7 @@ const ProductItem = () => {
                 <span className="value d-flex align-items-center">
                   <a
                     className="text-gray-700 text-xs underline"
-                    href={`/search?q=apple`}
+                    href={`/search?q=${product?.brand}`}
                   >
                     {product?.brand}
                   </a>
@@ -112,7 +156,7 @@ const ProductItem = () => {
                   <span className="text-xs font-medium text-gray-700 text-left d-flex align-items-center">
                     <i className="separator icon-separator text-[5px] mx-2 d-flex align-items-center text-gray-700 icon-line-height"></i>
                     Warranty:
-                    <span className=" ml-1">{product?.warranty}</span>
+                    <span className=" ml-1">1 vit</span>
                   </span>
 
                   <span className="text-xs font-medium text-gray-700 text-left d-flex align-items-center">
@@ -170,7 +214,9 @@ const ProductItem = () => {
                   >
                     Përfshirë TVSH-në
                   </span>
-                  <span style={{ fontSize: '9px' }}>Pa TVSH 450 €</span>
+                  <span style={{ fontSize: '9px' }}>
+                    Pa TVSH {priceWithoutTVSH?.toFixed(2)} €
+                  </span>
                 </div>
               </div>
 
@@ -190,11 +236,11 @@ const ProductItem = () => {
                 <span className="qty-label text-xs text-gray-600 whitespace-nowrap">
                   Pagesa me keste
                 </span>
-                <hr className="w-100 bg-gray-100 ml-2" />
+                <hr className="w-full bg-gray-100 ml-2" />
               </div>
 
               <div
-                className="returning-wrapper fieldset mfp-hide rounded d-flex justify-content-start flex-col bg-white w-100 md:w-[600px]"
+                className="returning-wrapper fieldset mfp-hide rounded d-flex justify-start flex-col bg-white w-full md:w-[600px]"
                 id="open-kep-popup"
               ></div>
 
@@ -219,10 +265,7 @@ const ProductItem = () => {
 
               <div className="w-100 d-flex flex-col pb-2">
                 <div className="d-flex align-items-center pt-2 mb-1">
-                  <label
-                    className="qty-label text-xs text-gray-600"
-                    // for="addtocart_160697_AddToCart_EnteredQuantity"
-                  >
+                  <label className="qty-label text-xs text-gray-600">
                     Quantity:
                   </label>
                   <hr className="w-100 bg-gray-100 ml-2" />
@@ -241,7 +284,6 @@ const ProductItem = () => {
                       value={quantity}
                       max={product?.stock}
                       pattern="[0-9]"
-                      // onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57"
                       id="product_enteredQuantity_160697"
                       className="quantity quantity-in-product border qty outline-none focus:ring-2 focus:ring-primary"
                       aria-label="Shkruani një sasi"
@@ -283,7 +325,6 @@ const ProductItem = () => {
                   </div>
                 </div>
               </div>
-
               <div
                 id="free-shipping-745"
                 className="delivery free-shipping d-flex flex-col pb-2"
@@ -302,12 +343,12 @@ const ProductItem = () => {
                         <div>
                           Product arrival time :<span>- Prishtinë</span>
                         </div>
-                        4 nentor - 6 nentor
+                        {formatISODateRange2dates(1, 3)}
                         <div></div>
                       </div>
                       <div className="d-flex flex-col justify-content-center pl-2 text-xs font-medium">
                         <div>Kosovë, others</div>
-                        <div> 8 nentor - 12 nentor</div>
+                        <div> {formatISODateRange2dates(3, 5)}</div>
                       </div>
                     </div>
                   </div>
@@ -362,6 +403,16 @@ const ProductItem = () => {
                     type="button"
                     id="buy-now-btn"
                     className="btn btn-primary btn-primary-hover w-100 focus:outline-none d-flex justify-content-center align-items-center gap-2 text-sm"
+                    onClick={() =>
+                      addToCartHandler(
+                        {
+                          productId: product?.id ?? '',
+                          quantity,
+                          price: product?.price ?? 0,
+                        },
+                        'buy'
+                      )
+                    }
                   >
                     <i className="icon-check-badge text-2xl d-flex align-items-center justify-content-center gap-2 icon-line-height">
                       <FontAwesomeIcon icon={faCheck} />
@@ -376,6 +427,16 @@ const ProductItem = () => {
                     className="w-100 add-to-cart-button btn btn-secondary btn-secondary-hover md:w-100 focus:outline-none d-flex justify-content-center"
                     data-productid="160697"
                     aria-label="Shto në shportë"
+                    onClick={() =>
+                      addToCartHandler(
+                        {
+                          productId: product?.id ?? '',
+                          quantity: quantity,
+                          price: product?.price ?? 0,
+                        },
+                        'addToCart'
+                      )
+                    }
                   >
                     <i className="icon-cart-shopping-add text-2xl icon-line-height">
                       <FontAwesomeIcon icon={faShoppingCart} />
@@ -443,7 +504,6 @@ const ProductItem = () => {
                         {productRatings?.length}
                         <i className="icon-star text-sm">
                           <FullStar />
-                          {/* <FontAwesomeIcon /> */}
                         </i>
                       </span>
                       <p>{productRatings?.length} Ratings</p>
@@ -479,7 +539,9 @@ const ProductItem = () => {
                         </div>
                         <div className="review-item-head d-flex align-items-center divide-dashed">
                           <span className="pr-1 text-xs capitalize-first-letter">
-                            Test name
+                            {typeof productItem.userID === 'string'
+                              ? ''
+                              : productItem.userID.name}
                           </span>
                           <span className="text-xs text-gray-700">
                             22.10.2023 11:48 e paradites
@@ -497,81 +559,23 @@ const ProductItem = () => {
                   </div>
                 </div>
               )}
-
-              <div className="d-flex flex-col position-relative">
-                <div
-                  className="grid grid-cols-1  md:grid-cols-2"
-                  id="product-specifications-split-page"
-                >
-                  <div className="d-flex flex-grow">
-                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
-                      key:
-                    </div>
-                    <div className="spec-value py-2 m-0 text-xs">value</div>
-                  </div>
-                </div>
-              </div>
-              {activeProdTitle === '3' && (
-                <div className="product-reviews">
-                  <div className="d-flex pb-6 justify-content-around border-b">
-                    <div className="d-flex align-items-center text-center flex-col ratingsAndReviews">
-                      <span className="text-primary text-4xl font-bold md:mb-0 d-flex align-items-center">
-                        5
-                        <i className="icon-star text-sm">
-                          <FullStar />
-                          {/* <FontAwesomeIcon /> */}
-                        </i>
-                      </span>
-                      <p>5 Ratings</p>
-                    </div>
-                    <div className="d-flex justify-content-center align-items-center">
-                      <button
-                        id="display-product-review-modal"
-                        onClick={() => setRatingsModal(true)}
-                        className="btn text-primary border rounded border-primary  hover:bg-primary transition-all duration-150 hover:text-white text-sm open-product-review-popup"
-                      >
-                        Shto vlerësimin tuaj
-                      </button>
-                    </div>
-                  </div>
-                  <div className="product-review-list">
-                    <div className="product-review-item mt-4">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <span className="inline-block text-base font-semibold capitalize-first-letter">
-                          title
-                        </span>
-                      </div>
-                      <div className="review-item-head d-flex align-items-center divide-dashed">
-                        <span className="pr-1 text-xs capitalize-first-letter">
-                          name
-                        </span>
-                        <span className="text-xs text-gray-700">
-                          22.10.2023 11:48 e paradites
-                        </span>
-                      </div>
-                      <div className="review-content text-left">
-                        <div className="review-text flex items-center my-2">
-                          <div className="text-body capitalize-first-letter flex-grow text-sm">
-                            description
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </ProductWrapper>
+        <RelatedProducts product={product} />
 
         {ratingsModal && (
           <RatingModal
             show={ratingsModal}
             onHide={() => setRatingsModal(false)}
-            userID={'test1'}
+            userID={user?.user.id || ''}
             productID={id}
+            productTitle={product ? product.title : ''}
+            productImage={product?.imageCover ? product.imageCover : ''}
           />
         )}
+
+        {paymentModal && <PaymentCheckout productID={id} />}
       </div>
     </div>
   )

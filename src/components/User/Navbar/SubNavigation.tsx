@@ -62,7 +62,7 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/computer-laptop-server"
             >
               Computer,Laptop & Server
             </a>
@@ -110,7 +110,7 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/telephone-tablet-ebook-navigation"
             >
               Celular,Tablet & Navigim
             </a>
@@ -157,7 +157,7 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/tv-audio-foto-video"
             >
               TV,Audio & Foto
             </a>
@@ -205,7 +205,7 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/gaming"
             >
               Gaming
             </a>
@@ -254,7 +254,7 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/smart"
             >
               SMART
             </a>
@@ -303,7 +303,7 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/accessories"
             >
               Accessories
             </a>
@@ -352,7 +352,7 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/graphic-procesor-motherboard-ram-memory"
             >
               Parts for Computers
             </a>
@@ -450,7 +450,7 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/apple"
             >
               What's new?
             </a>
@@ -466,7 +466,7 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/apple"
             >
               <img
                 style={{ width: '30px', height: '30px' }}

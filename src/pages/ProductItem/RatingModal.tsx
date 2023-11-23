@@ -1,70 +1,69 @@
-import { useCreateRatingMutation } from "@/store/products/RTKProductSlice";
-import { RatingInput } from "@/utils/types";
-import { faRankingStar, faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import { Image } from '@/utils/helpers'
+import { RatingInput } from '@/utils/types'
 import {
-  Button,
-  Form,
-  FormGroup,
-  FormLabel,
-  InputGroup,
-  Modal,
-} from "react-bootstrap";
-import Rating from "react-rating-stars-component";
+  useCreateRatingMutation,
+  useGetRatingWithProductIdQuery,
+} from '@/store/products/RTKProductSlice'
+import { faRankingStar, faStar } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { FC, useState } from 'react'
+import { Button, Form, FormLabel, InputGroup, Modal } from 'react-bootstrap'
+import Rating from 'react-rating-stars-component'
 
-const FullStar = () => <FontAwesomeIcon icon={faStar} />;
+const FullStar = () => <FontAwesomeIcon icon={faStar} />
 
 type RatingModalProps = {
-  show: boolean;
-  onHide: () => void;
-  userID: string;
-  productID: string;
-};
+  show: boolean
+  onHide: () => void
+  userID: string
+  productID: string
+  productTitle: string
+  productImage: string
+}
 
 const RatingModal: FC<RatingModalProps> = ({
   show,
   onHide,
   userID,
   productID,
+  productTitle,
+  productImage,
 }) => {
-  const [createRating, { isLoading }] = useCreateRatingMutation();
+  const [createRating, { isLoading }] = useCreateRatingMutation()
+  const { refetch } = useGetRatingWithProductIdQuery(productID ? productID : '')
   const [formData, setFormData] = useState<RatingInput>({
-    title: "",
-    description: "",
+    title: '',
+    description: '',
     rating: 0,
     userID,
     productID,
-  });
+  })
 
   const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    console.log("name", name, value);
-
     if (e.target) {
-      const { name, value } = e.target;
-      setFormData({ ...formData, [name]: value });
+      const { name, value } = e.target
+      setFormData({ ...formData, [name]: value })
     }
-  };
-
-  const [rating, setRating] = useState(0);
+  }
 
   const handleCreateRating = async (e: any) => {
+    e.preventDefault()
     try {
-      const result = await createRating({ ...formData });
-      // Handle the result, e.g., show a success message
+      const result = await createRating({ ...formData })
+      refetch()
+      onHide()
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error)
     }
 
     setFormData({
-      title: "",
-      description: "",
+      title: '',
+      description: '',
       rating: 0,
       userID,
       productID,
-    });
-  };
+    })
+  }
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -74,15 +73,14 @@ const RatingModal: FC<RatingModalProps> = ({
       <Modal.Body>
         <div className="shadow-bottom p-4 d-flex align-items-center">
           <span className="w-20 h-20 d-flex align-items-center justify-content-center mr-4">
-            <img
+            <Image
+              src={productImage}
               className="max-h-full max-w-full"
-              src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/88cc6478-2cc5-42f7-830d-2d96eb640d14/thumb/88cc6478-2cc5-42f7-830d-2d96eb640d14.jpeg"
+              alt="product"
             />
           </span>
           <div className="d-flex flex-col">
-            <span className="text-base text-gray-700">
-              Apple iPhone 15 Pro, 128GB, Natural Titanium
-            </span>
+            <span className="text-base text-gray-700">{productTitle}</span>
           </div>
         </div>
         <Form>
@@ -120,8 +118,8 @@ const RatingModal: FC<RatingModalProps> = ({
               size={24}
               value={formData.rating}
               onChange={(newRating: number) => {
-                const updatedFormData = { ...formData, rating: newRating };
-                setFormData(updatedFormData);
+                const updatedFormData = { ...formData, rating: newRating }
+                setFormData(updatedFormData)
               }}
               color="#ccc"
               activeColor="#f8b400"
@@ -140,7 +138,7 @@ const RatingModal: FC<RatingModalProps> = ({
         </Button>
       </Modal.Footer>
     </Modal>
-  );
-};
+  )
+}
 
-export default RatingModal;
+export default RatingModal

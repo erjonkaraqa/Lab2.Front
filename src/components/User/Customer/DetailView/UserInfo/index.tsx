@@ -84,13 +84,6 @@ const UserInfo = () => {
 
   useEffect(() => {
     if (user && !formSubmitted) {
-      console.log('Setting form data:', {
-        name: user.user.name,
-        surname: user.user.surname,
-        birthdate: new Date(user.user.birthdate || ''),
-        gender: user.user.gender,
-      })
-
       setFormData({
         name: user.user.name,
         surname: user.user.surname,
@@ -145,7 +138,6 @@ const UserInfo = () => {
         window.location.reload()
       })
       setFormSubmitted(true)
-
     } catch (error) {
       setLoading(false)
       console.log('error', error)
@@ -205,7 +197,7 @@ const UserInfo = () => {
                 name="birthdate"
                 value={
                   formData.birthdate instanceof Date &&
-                    !isNaN(formData.birthdate.getTime())
+                  !isNaN(formData.birthdate.getTime())
                     ? format(formData.birthdate, 'yyyy-MM-dd')
                     : 'DD/MM/YYYY'
                 }
