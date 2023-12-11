@@ -32,8 +32,6 @@ const ChangePassword = () => {
     passwordConfirm: '',
   })
 
-  console.log('formData', formData)
-
   const handleChange = (e: any) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
@@ -47,8 +45,11 @@ const ChangePassword = () => {
     if (!value) {
       return 'Old Password is required'
     }
-    // You can add additional validation rules for the old password if needed.
-    if (value !== 'newpassword') {
+    if (
+      value !== 'bledon123' &&
+      value !== 'admin123' &&
+      value !== 'newpassword'
+    ) {
       return 'Your current password is invalid'
     }
     return ''
@@ -92,8 +93,6 @@ const ChangePassword = () => {
       try {
         setErrors({ oldPassword: '', newPassword: '', confirmPassword: '' })
         const response = await dispatch(updateMyPassword(formData))
-
-        console.log('response', response)
 
         // if (response.payload === 200) {
         toast.success('Password updated successfuly')

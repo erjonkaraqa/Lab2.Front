@@ -93,12 +93,17 @@ const UserInfo = () => {
     }
   }, [])
 
+  console.log('typeof', typeof formData.birthdate)
+  console.log('typeof user', typeof user?.user.birthdate)
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
 
     if (name === 'gender' && value !== 'male' && value !== 'female') {
       return
     }
+
+    console.log('handleChange', name + ' : ' + value)
 
     if (name === 'birthdate') {
       setFormData((prevData) => ({
@@ -119,8 +124,11 @@ const UserInfo = () => {
 
     try {
       await dispatch(updateMe(formData)).then((res) => {
+        console.log('res', res)
         toast.success('Your data has been changed successfully')
         const storageUser = JSON.parse(localStorage.getItem('user') || '{}')
+
+        console.log('storageUser', storageUser)
         const userObject = {
           refreshToken: localStorage.getItem('user.refreshToken'),
           status: 'success',
@@ -133,6 +141,7 @@ const UserInfo = () => {
             gender: res.payload.gender,
           },
         }
+        // localStorage.setItem('token',JSON.stringify(userObject.token))
         localStorage.setItem('user', JSON.stringify(userObject))
         setLoading(false)
         window.location.reload()
@@ -143,6 +152,8 @@ const UserInfo = () => {
       console.log('error', error)
     }
   }
+
+  console.log('formData', formData)
 
   return (
     <div className="account-page">
@@ -208,7 +219,7 @@ const UserInfo = () => {
               <div key={`inline-radio`} className="mb-3">
                 <Form.Check
                   inline
-                  name="male"
+                  name="gender"
                   type={'radio'}
                   label="Male"
                   id={`inline-radio-${formData.gender}`}
@@ -218,7 +229,7 @@ const UserInfo = () => {
                 />
                 <Form.Check
                   inline
-                  name="female"
+                  name="gender"
                   type={'radio'}
                   label="Female"
                   id={`inline-radio-${formData.gender}`}

@@ -29,6 +29,7 @@ import { useNavigate } from 'react-router-dom'
 import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice'
 import { Image } from '@/utils/helpers'
 import { useAppSelector } from '@/hooks/useAppSelector'
+import LoadingBar from '../Loading/LoadingBar'
 
 type DropdownProps = {
   children?: ReactNode
@@ -94,7 +95,13 @@ const CustomDropdown = ({
           </span>
           {hasCartNumber && (
             <span className="cart-qty animate-flip bg-primary rounded-full position-absolute top-0 right-0">
-              {cartItemProducts?.length || 0}
+              {cartLoading ? (
+                <div className="d-flex align-items-center h-100 justify-content-center">
+                  <LoadingBar height="10px" size={'10px'} />
+                </div>
+              ) : (
+                cartItemProducts?.length || 0
+              )}
             </span>
           )}
         </span>

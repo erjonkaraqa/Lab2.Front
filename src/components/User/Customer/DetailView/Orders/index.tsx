@@ -49,7 +49,7 @@ const OrderCard = ({
 
           <p>{formatDateToDDMMYYYY(completionDate)}</p>
           <p className={`${status} fw-bold`}>{status}</p>
-          {price && <p>{price.toFixed(2)} €</p>}
+          {price && <p>{Math.round(+price).toLocaleString()}.00 €</p>}
         </div>
         <p
           className="d-flex align-items-center hover-primary cursor-pointer"

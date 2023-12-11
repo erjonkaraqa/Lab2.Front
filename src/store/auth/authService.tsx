@@ -43,7 +43,10 @@ const login = async (userData: LoginUserData) => {
 const logout = async () => {
   const response = await axiosInstance.get(API_URL + '/logout')
 
+  console.log('response', response)
+
   if (response.data) {
+    console.log('test')
     localStorage.removeItem('user')
     localStorage.removeItem('token')
   }

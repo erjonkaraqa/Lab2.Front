@@ -70,28 +70,28 @@ const SearchByCategory = () => {
   ) => {
     if (category) {
       return (
-        productCategoryName.includes(category.toLowerCase()) ||
-        productTags.some((tag: string) => tag.includes(category.toLowerCase()))
+        productCategoryName.includes(category?.toLowerCase()) ||
+        productTags.some((tag: string) => tag.includes(category?.toLowerCase()))
       )
     } else if (routeCategories && routeCategories.length > 0) {
       return (
         routeCategories.some((routeCategory) =>
-          productCategoryName.includes(routeCategory.toLowerCase())
+          productCategoryName.includes(routeCategory?.toLowerCase())
         ) ||
         routeCategories.some((routeCategory) =>
           productTags.some((tag: string) =>
-            tag.includes(routeCategory.toLowerCase())
+            tag.includes(routeCategory?.toLowerCase())
           )
         )
       )
     } else {
       return (
         ['computer', 'laptop', 'server'].some((defaultCategory) =>
-          productCategoryName.includes(defaultCategory.toLowerCase())
+          productCategoryName.includes(defaultCategory?.toLowerCase())
         ) ||
         ['computer', 'laptop', 'server'].some((defaultCategory) =>
           productTags.some((tag: string) =>
-            tag.includes(defaultCategory.toLowerCase())
+            tag.includes(defaultCategory?.toLowerCase())
           )
         )
       )
@@ -119,7 +119,7 @@ const SearchByCategory = () => {
       selectedManufacturers.length === 0 ||
       selectedManufacturers.some(
         (selectedManufacturer) =>
-          selectedManufacturer.toLowerCase() === product.brand.toLowerCase()
+          selectedManufacturer?.toLowerCase() === product.brand?.toLowerCase()
       )
     const isInRange = product.price >= minPrice && product.price <= maxPrice
 

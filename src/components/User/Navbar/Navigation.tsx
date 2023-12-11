@@ -25,6 +25,7 @@ import { useAppSelector } from '@/hooks/useAppSelector'
 import SidebarNavigation from './Sidebar'
 import { Image } from '@/utils/helpers'
 import LoadingModal from './LoadingModal'
+import { toast } from 'react-toastify'
 
 const Navigation = () => {
   const navigate = useNavigate()
@@ -49,6 +50,10 @@ const Navigation = () => {
     refetch,
     isLoading: cartLoading,
   } = useGetCartProductsQuery()
+
+  useEffect(() => {
+    refetch()
+  }, [])
 
   const onLogout = async () => {
     setLoading(true)
@@ -84,6 +89,7 @@ const Navigation = () => {
   const handleDeleteCartProduct = async (productId: string) => {
     try {
       await deleteProduct(productId)
+      toast.success('Product delete from cart successfuly')
       refetch()
     } catch (error) {
       console.log('error', error)

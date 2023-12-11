@@ -137,12 +137,19 @@ const ReturnRequests = () => {
                               <label className="whitespace-nowrap text-gray-600">
                                 Sasia:
                               </label>
-                              <span className="font-medium">1</span>
+                              <span className="font-medium">
+                                {product.quantity}
+                              </span>
                             </li>
                           </ul>
                         </div>
                         <div className="font-semibold text-sm tablet:text-base whitespace-nowrap">
-                          35.50 €
+                          {Math.round(
+                            product.product.priceDiscount
+                              ? product.quantity * product.product.priceDiscount
+                              : product.quantity * product.product.price
+                          ).toLocaleString()}
+                          .00 €
                         </div>
                       </div>
                     </div>

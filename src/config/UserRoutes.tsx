@@ -20,6 +20,7 @@ import CheckoutCompleted from '@/pages/CheckoutCompleted'
 import OnePageCheckout from '@/pages/OnePageCheckout'
 import SearchComponent from '@/pages/SearchPage'
 import SearchByCategory from '@/pages/SearchByCategory'
+import Movies from '@/pages/movies'
 
 const UserRoutes = () => {
   const isUserAuthenticated = useAppSelector((state) => state.auth.user)
@@ -45,6 +46,7 @@ const UserRoutes = () => {
         <Route path="/product/:id" element={<ProductItem />} />
         <Route path="/access-denied" element={<AccessDenied />} />
         <Route path="/search" element={<SearchComponent />} />
+        <Route path="/movies" element={<Movies />} />
         <Route
           path="/:categoryGroup?/:category?"
           element={<SearchByCategory />}

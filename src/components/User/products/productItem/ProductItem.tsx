@@ -94,7 +94,7 @@ const ProductItem: React.FC<ProductItemTypes> = ({
   return (
     <>
       <div className="item-box w-100 p-0">
-        <div className="product-item bg-white p-2 md:p-3 relative shadow-sm hover:shadow-md rounded h-full overflow-hidden d-flex flex-col justify-between">
+        <div className="product-item bg-white p-2 md:p-3 relative shadow-sm hover:shadow-md rounded h-full overflow-hidden d-flex flex-col justify-content-between">
           <div className="h-6 top-2.5 left-0 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-full flex-row justify-content-between">
             <div className="d-flex">
               {isNew && (
@@ -178,16 +178,16 @@ const ProductItem: React.FC<ProductItemTypes> = ({
               {discount !== 0 ? (
                 <>
                   <span className="price font-semibold text-gray-700 text-base md:text-xl">
-                    {priceDiscount?.toFixed(2)} €
+                    {Math.round(priceDiscount).toLocaleString()}.00 €
                   </span>
                   <small>
-                    <del>{price.toFixed(2)} $</del>
+                    <del>{Math.round(price).toLocaleString()}.00 €</del>
                   </small>
                 </>
               ) : (
                 <>
                   <span className="price font-semibold text-gray-700 text-base md:text-xl">
-                    {price.toFixed(2)} €
+                    {Math.round(price).toLocaleString()}.00 €
                   </span>
                   <small style={{ opacity: '0' }}>
                     <del>test</del>
