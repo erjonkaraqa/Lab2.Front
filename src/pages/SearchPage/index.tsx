@@ -60,10 +60,10 @@ const SearchComponent = () => {
     const inStockCondition = inStock ? product.stock : true
     const tfTransportCondition = tfTransport ? product.tfTransport : true
     const productTags: string[] = product.tags.map((tag: string) =>
-      tag.toLowerCase()
+      tag?.toLowerCase()
     )
     const titleMatch = product.title
-      .toLowerCase()
+      ?.toLowerCase()
       .includes(searchQuery.toLowerCase())
     const isNewCondition = showNewProducts ? product.isNew : true
     const hasDiscountCondition = showDiscountedProducts
@@ -73,7 +73,7 @@ const SearchComponent = () => {
       selectedManufacturers.length === 0 ||
       selectedManufacturers.some(
         (selectedManufacturer) =>
-          selectedManufacturer.toLowerCase() === product.brand.toLowerCase()
+          selectedManufacturer?.toLowerCase() === product.brand?.toLowerCase()
       )
     const isInRange = product.price >= minPrice && product.price <= maxPrice
 
