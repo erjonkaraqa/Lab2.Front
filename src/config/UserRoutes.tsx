@@ -21,6 +21,8 @@ import OnePageCheckout from '@/pages/OnePageCheckout'
 import SearchComponent from '@/pages/SearchPage'
 import SearchByCategory from '@/pages/SearchByCategory'
 import Movies from '@/pages/movies'
+import Contract from '@/pages/ContractPage/Contract'
+import EditContract from '@/pages/ContractPage/EditContract'
 
 const UserRoutes = () => {
   const isUserAuthenticated = useAppSelector((state) => state.auth.user)
@@ -51,6 +53,8 @@ const UserRoutes = () => {
           path="/:categoryGroup?/:category?"
           element={<SearchByCategory />}
         />
+        <Route path="/contract" element={<Contract />} />
+        <Route path="/edit/:id" element={<EditContract />} />
 
         {isUserAuthenticated ? (
           <>
