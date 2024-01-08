@@ -395,7 +395,7 @@ label {
   color: #e34850;
   padding-left: 20px;
   font-size: 14px;
-  background-image: url(../../../assets/images/error-circle.svg);
+  /* background-image: url(../../../assets/images/error-circle.svg); */
   background-repeat: no-repeat;
   background-position: left 1px;
   background-size: 18px;
@@ -424,7 +424,7 @@ label {
   transform: scale(1);
 }
 .checkbox-wrapper label::after {
-  background-image: url(../../../assets/images/checkmark.webp);
+  /* background-image: url(../../../assets/images/checkmark.webp); */
   background-size: 10px;
   background-position: center;
   background-repeat: no-repeat;
